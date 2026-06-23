@@ -1816,8 +1816,8 @@ section { position: relative; overflow: hidden; }
 .payment-badges {
   margin-top: 28px;
   padding: 20px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--white);
+  border: 1px solid var(--border);
   border-radius: 16px;
 }
 .payment-badges-label {
@@ -1825,7 +1825,7 @@ section { position: relative; overflow: hidden; }
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
+  color: var(--text-2);
   margin-bottom: 14px;
 }
 .payment-badges-row {
@@ -1837,8 +1837,8 @@ section { position: relative; overflow: hidden; }
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: var(--bg-2);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 12px 16px;
   cursor: default;
@@ -1858,10 +1858,10 @@ section { position: relative; overflow: hidden; }
 .pay-name {
   font-size: 14px;
   font-weight: 700;
-  color: #fff;
+  color: var(--red);
   margin-bottom: 2px;
 }
 .pay-sub {
   font-size: 11px;
-  color: rgba(255,255,255,0.45);
+  color: var(--text-2);
 }

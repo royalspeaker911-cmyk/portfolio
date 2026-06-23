@@ -213,18 +213,11 @@
     <button class="video-modal-close" onclick="closeVideoModal()" id="videoCloseBtn">×</button>
     <div class="video-modal-inner">
       <div class="video-embed-wrap" id="videoEmbed">
-        <!-- Placeholder — replace src with your Loom/YouTube link -->
-        <div class="video-placeholder-msg">
-          <div style="font-size:60px;margin-bottom:16px;">🎥</div>
-          <h3>Your Intro Video Goes Here!</h3>
-          <p>Record a 60-second video on <strong>Loom</strong> (free) introducing yourself.</p>
-          <p style="margin-top:12px;">Then share the link with me and I'll embed it here in 2 minutes!</p>
-          <div class="video-steps">
-            <div class="vstep">1️⃣ Go to <strong>loom.com</strong> → Record yourself</div>
-            <div class="vstep">2️⃣ Copy the Loom link</div>
-            <div class="vstep">3️⃣ Send me the link → I'll add it!</div>
-          </div>
-        </div>
+        <video id="introVideo" controls width="100%" style="border-radius:12px;display:block;max-height:70vh;background:#000;" poster="" preload="none">
+          <source src="intro.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <p style="text-align:center;margin-top:12px;color:rgba(255,255,255,0.5);font-size:13px;">👋 Hi! I'm Tharun Sagar — Watch my 60-second intro</p>
       </div>
     </div>
   </div>
@@ -411,14 +404,7 @@
       <div class="work-grid">
         <div class="work-card" data-category="web" id="work-1">
           <div class="work-card-img">
-            <div class="work-placeholder web-placeholder">
-              <div class="placeholder-icon">🌐</div>
-              <div class="placeholder-lines">
-                <div class="ph-line"></div>
-                <div class="ph-line short"></div>
-                <div class="ph-line medium"></div>
-              </div>
-            </div>
+            <img src="ecommerce.png" alt="E-Commerce Platform" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;" />
             <div class="work-overlay">
               <div class="work-overlay-content">
                 <span class="work-tag">Web Development</span>
@@ -436,15 +422,7 @@
 
         <div class="work-card large" data-category="ai" id="work-2">
           <div class="work-card-img">
-            <div class="work-placeholder ai-placeholder">
-              <div class="ai-visual">
-                <div class="ai-node"></div>
-                <div class="ai-node"></div>
-                <div class="ai-node"></div>
-                <div class="ai-lines"></div>
-              </div>
-              <div class="placeholder-icon">🤖</div>
-            </div>
+            <img src="automation.png" alt="Business Automation Suite" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;" />
             <div class="work-overlay">
               <div class="work-overlay-content">
                 <span class="work-tag">AI Automation</span>
@@ -462,15 +440,7 @@
 
         <div class="work-card" data-category="ugc" id="work-3">
           <div class="work-card-img">
-            <div class="work-placeholder ugc-placeholder">
-              <div class="placeholder-icon">🎬</div>
-              <div class="video-bars">
-                <div class="vbar"></div>
-                <div class="vbar"></div>
-                <div class="vbar"></div>
-                <div class="vbar"></div>
-              </div>
-            </div>
+            <img src="ads.png" alt="Viral Product Ad Campaign" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;" />
             <div class="work-overlay">
               <div class="work-overlay-content">
                 <span class="work-tag">UGC Ads</span>
@@ -488,14 +458,7 @@
 
         <div class="work-card" data-category="social" id="work-4">
           <div class="work-card-img">
-            <div class="work-placeholder social-placeholder">
-              <div class="social-grid">
-                <div class="sg-item red"></div>
-                <div class="sg-item dark"></div>
-                <div class="sg-item dark"></div>
-                <div class="sg-item red"></div>
-              </div>
-            </div>
+            <img src="design.png" alt="Brand Identity & Posts" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;" />
             <div class="work-overlay">
               <div class="work-overlay-content">
                 <span class="work-tag">Social Media</span>
@@ -513,13 +476,7 @@
 
         <div class="work-card large" data-category="web" id="work-5">
           <div class="work-card-img">
-            <div class="work-placeholder web2-placeholder">
-              <div class="placeholder-icon">⚡</div>
-              <div class="placeholder-lines">
-                <div class="ph-line"></div>
-                <div class="ph-line medium"></div>
-              </div>
-            </div>
+            <img src="agency.png" alt="Apex Studio" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;" />
             <div class="work-overlay">
               <div class="work-overlay-content">
                 <span class="work-tag">Web Development</span>
@@ -537,13 +494,7 @@
 
         <div class="work-card" data-category="social" id="work-6">
           <div class="work-card-img">
-            <div class="work-placeholder social2-placeholder">
-              <div class="placeholder-icon">🎨</div>
-              <div class="poster-preview">
-                <div class="poster-bar red-bar"></div>
-                <div class="poster-bar white-bar"></div>
-              </div>
-            </div>
+            <img src="design.png" alt="Instagram Campaign" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;" />
             <div class="work-overlay">
               <div class="work-overlay-content">
                 <span class="work-tag">Social Media</span>
@@ -756,20 +707,13 @@
           </div>
           <!-- PAYMENT BADGES -->
           <div class="payment-badges" id="payment-badges">
-            <div class="payment-badges-label">💳 Accepted Payments</div>
+            <div class="payment-badges-label">💳 Accepted Payment</div>
             <div class="payment-badges-row">
-              <div class="payment-badge" id="pay-paypal">
-                <span class="pay-icon">🅿️</span>
-                <div>
-                  <div class="pay-name">PayPal</div>
-                  <div class="pay-sub">tharunsagarm96@gmail.com</div>
-                </div>
-              </div>
               <div class="payment-badge" id="pay-usdt">
                 <span class="pay-icon">🦊</span>
                 <div>
                   <div class="pay-name">USDT (Crypto)</div>
-                  <div class="pay-sub">MetaMask · Polygon Network</div>
+                  <div class="pay-sub">MetaMask · Polygon Network · Zero Fees</div>
                 </div>
               </div>
             </div>
@@ -883,7 +827,7 @@
     </form>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="script.js"></script>
   <script>
     function openBooking() {
@@ -917,11 +861,17 @@
       document.getElementById('videoOverlay').classList.add('active');
       document.getElementById('videoModal').classList.add('active');
       document.body.style.overflow = 'hidden';
+      // Auto-play video when modal opens
+      const vid = document.getElementById('introVideo');
+      if (vid) { vid.currentTime = 0; vid.play(); }
     }
     function closeVideoModal() {
       document.getElementById('videoOverlay').classList.remove('active');
       document.getElementById('videoModal').classList.remove('active');
       document.body.style.overflow = '';
+      // Pause video when modal closes
+      const vid = document.getElementById('introVideo');
+      if (vid) { vid.pause(); vid.currentTime = 0; }
     }
   </script>
 </body>
