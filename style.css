@@ -1865,3 +1865,12 @@ section { position: relative; overflow: hidden; }
   font-size: 11px;
   color: var(--text-2);
 }
+
+/* PayPal badge — PayPal blue accent on hover */
+#pay-paypal:hover {
+  border-color: #009cde;
+  background: rgba(0, 156, 222, 0.08);
+}
+#pay-paypal .pay-name {
+  color: #003087;
+}
