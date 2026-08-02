@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura 3D | Next-Gen Spatial Web & AI Engine</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <!-- Three.js, GSAP & OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+
+  <!-- 3D WebGL Canvas -->
+  <div id="canvas-container"></div>
+
+  <!-- Aceternity UI Spotlight Glow Layer -->
+  <div class="spotlight-layer"></div>
+
+  <!-- Spatial Glass UI Overlay -->
+  <div class="spatial-ui">
+    
+    <!-- Header -->
+    <header class="header-glass">
+      <div class="brand">
+        <div class="brand-logo"><i class="fa-solid fa-cube"></i></div>
+        <div>
+          <h2>AURA 3D</h2>
+          <span class="sub-tag">HORIZON ARCHITECTURE • SPATIAL AI</span>
+        </div>
+      </div>
+      <div class="header-status">
+        <span class="status-pill"><span class="dot"></span> 60 FPS WEBGL ACTIVE</span>
+        <a href="https://tharunsagarm.github.io/dev" class="contact-pill">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> Portfolio
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Layout Grid -->
+    <main class="hero-layout">
+      
+      <!-- Left Glass Control Panel -->
+      <div class="glass-panel main-panel">
+        <span class="section-badge"><i class="fa-solid fa-sparkles"></i> NEXT-GEN WEB ARCHITECTURE</span>
+        <h1>Spatial 3D <span class="gradient-text">Web & AI Systems</span></h1>
+        <p class="tagline">
+          We engineer high-performance Three.js 3D web applications with real-time Gemini AI lead qualification for SaaS & luxury brands.
+        </p>
+
+        <!-- Magic UI Border Beam Feature Container -->
+        <div class="beam-container">
+          <div class="beam-header">
+            <span class="beam-title"><i class="fa-solid fa-bolt"></i> HIGH-TICKET SPATIAL OFFER</span>
+            <span class="beam-price">$1,500 – $5,000</span>
+          </div>
+          <p class="beam-desc">Custom 3D WebGL Canvas • GSAP Animations • Gemini AI Sales Bot Integration</p>
+        </div>
+
+        <!-- 3D Scene Interactive Controls -->
+        <div class="controls-group">
+          <span class="label">EXPLORE 3D SPATIAL PRESETS:</span>
+          <div class="preset-buttons">
+            <button class="btn-preset active" data-preset="hero"><i class="fa-solid fa-vr-cardboard"></i> 3D Hero Nodes</button>
+            <button class="btn-preset" data-preset="lighting"><i class="fa-solid fa-sun"></i> Lighting Moods</button>
+            <button class="btn-preset" data-preset="ai"><i class="fa-solid fa-robot"></i> AI Qualification</button>
+          </div>
+        </div>
+
+        <!-- Interactive Node Selection Grid -->
+        <div class="node-cards-grid">
+          <div class="node-card active" data-node="0">
+            <i class="fa-solid fa-layer-group"></i>
+            <div>
+              <h4>WebGL Spatial Engine</h4>
+              <span>60 FPS Three.js Canvas & Shaders</span>
+            </div>
+          </div>
+          <div class="node-card" data-node="1">
+            <i class="fa-solid fa-microchip"></i>
+            <div>
+              <h4>Gemini AI Sales Agent</h4>
+              <span>24/7 Automated Buyer Qualification</span>
+            </div>
+          </div>
+          <div class="node-card" data-node="2">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <div>
+              <h4>GSAP Motion System</h4>
+              <span>ScrollTrigger & Camera Storytelling</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="cta-actions">
+          <button class="btn-primary" id="open-ai-chat">
+            <i class="fa-solid fa-comments"></i> Talk to AI Sales Agent
+          </button>
+          <a href="https://wa.me/27682537360" target="_blank" class="btn-secondary">
+            <i class="fa-brands fa-whatsapp"></i> Instant WhatsApp Call
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Right Side AI Assistant Drawer -->
+      <div class="glass-panel ai-drawer" id="ai-drawer">
+        <div class="drawer-header">
+          <div class="ai-avatar"><i class="fa-solid fa-robot"></i></div>
+          <div>
+            <h3>Aura AI Assistant</h3>
+            <span class="ai-status">ONLINE • GEMINI ENGINE</span>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+          <div class="message ai-msg">
+            Hi! I am the Aura Spatial AI Assistant. Ask me anything about our 3D WebGL builds, pricing, or custom features!
+          </div>
+        </div>
+
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" placeholder="Ask AI Assistant anything..." autocomplete="off">
+          <button id="send-chat-btn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

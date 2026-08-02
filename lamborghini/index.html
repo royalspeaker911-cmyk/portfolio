@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lamborghini Huracán STO — Drag to Reveal</title>
+  <meta name="description" content="Experience the Lamborghini Huracán STO. Drag to unveil the apex predator of the road." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" id="nav">
+    <div class="nav-logo">
+      <svg width="48" height="32" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M60 4L116 76H4L60 4Z" fill="#E8A000" stroke="#E8A000" stroke-width="2"/>
+        <text x="50%" y="68%" text-anchor="middle" font-family="Inter" font-size="18" font-weight="700" fill="#000" dy=".1em">L</text>
+      </svg>
+      <span class="nav-brand">LAMBORGHINI</span>
+    </div>
+    <div class="nav-pill">
+      <a href="#hero" class="nav-link active">Discover</a>
+      <a href="#performance" class="nav-link">Performance</a>
+      <a href="#engineering" class="nav-link">Engineering</a>
+      <a href="#configure" class="nav-link">Configure</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#configure" class="btn-primary">Build Yours</a>
+    </div>
+  </nav>
+
+  <!-- HERO — DRAG TO REVEAL -->
+  <section class="hero" id="hero">
+    <div class="hero-video-wrap">
+      <video
+        id="reveal-video"
+        src="reveal.mp4"
+        muted
+        playsinline
+        preload="auto"
+      ></video>
+      <div class="hero-vignette"></div>
+    </div>
+
+    <!-- LEFT CONTENT -->
+    <div class="hero-content">
+      <p class="hero-eyebrow">Huracán STO</p>
+      <h1 class="hero-headline">
+        Discover<br /><em>the Beast</em>
+      </h1>
+      <p class="hero-sub">610 CV &nbsp;·&nbsp; 2.9s 0–100 km/h &nbsp;·&nbsp; 325 km/h</p>
+    </div>
+
+    <!-- DRAG UI -->
+    <div class="drag-ui" id="dragUI">
+      <div class="drag-ring-wrap">
+        <svg class="ring-svg" viewBox="0 0 100 100">
+          <circle class="ring-bg" cx="50" cy="50" r="44" />
+          <circle class="ring-fill" id="ringFill" cx="50" cy="50" r="44" />
+        </svg>
+        <span class="ring-percent" id="ringPercent">0%</span>
+      </div>
+      <p class="drag-label" id="dragLabel">DRAG TO REVEAL</p>
+      <div class="drag-arrow">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <!-- DRAG TRACK -->
+    <div class="drag-track">
+      <div class="drag-track-fill" id="dragTrackFill"></div>
+      <div class="drag-cursor" id="dragCursor"></div>
+    </div>
+
+    <!-- SCROLL HINT -->
+    <div class="scroll-hint" id="scrollHint">
+      <span>Scroll to explore</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+
+  <section class="section-performance" id="performance">
+    <div class="container">
+      <p class="section-eyebrow">Raw Numbers</p>
+      <h2 class="section-title">Built to<br /><em>Dominate</em></h2>
+      <div class="specs-grid">
+        <div class="spec-card">
+          <span class="spec-num">610</span>
+          <span class="spec-unit">CV</span>
+          <p class="spec-label">Engine Output</p>
+        </div>
+        <div class="spec-card">
+          <span class="spec-num">2.9</span>
+          <span class="spec-unit">sec</span>
+          <p class="spec-label">0 – 100 km/h</p>
+        </div>
+        <div class="spec-card">
+          <span class="spec-num">325</span>
+          <span class="spec-unit">km/h</span>
+          <p class="spec-label">Top Speed</p>
+        </div>
+        <div class="spec-card">
+          <span class="spec-num">5.2</span>
+          <span class="spec-unit">L</span>
+          <p class="spec-label">V10 Naturally Aspirated</p>
+        </div>
+        <div class="spec-card">
+          <span class="spec-num">1228</span>
+          <span class="spec-unit">kg</span>
+          <p class="spec-label">Dry Weight</p>
+        </div>
+        <div class="spec-card">
+          <span class="spec-num">7</span>
+          <span class="spec-unit">DCT</span>
+          <p class="spec-label">Gearbox</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROTATING WHEEL DECORATION -->
+    <div class="wheel-deco" id="wheelDeco">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="95" stroke="#FF5B32" stroke-width="1"/>
+        <circle cx="100" cy="100" r="70" stroke="#FF5B32" stroke-width="0.5"/>
+        <circle cx="100" cy="100" r="18" stroke="#FFF2CF" stroke-width="1.5"/>
+        <circle cx="100" cy="100" r="8" fill="#FF5B32"/>
+        <!-- Spokes -->
+        <line x1="100" y1="5" x2="100" y2="82" stroke="#FF5B32" stroke-width="1"/>
+        <line x1="100" y1="118" x2="100" y2="195" stroke="#FF5B32" stroke-width="1"/>
+        <line x1="5" y1="100" x2="82" y2="100" stroke="#FF5B32" stroke-width="1"/>
+        <line x1="118" y1="100" x2="195" y2="100" stroke="#FF5B32" stroke-width="1"/>
+        <line x1="32" y1="32" x2="87" y2="87" stroke="#FF5B32" stroke-width="1"/>
+        <line x1="113" y1="113" x2="168" y2="168" stroke="#FF5B32" stroke-width="1"/>
+        <line x1="168" y1="32" x2="113" y2="87" stroke="#FF5B32" stroke-width="1"/>
+        <line x1="87" y1="113" x2="32" y2="168" stroke="#FF5B32" stroke-width="1"/>
+        <!-- Outer tick marks -->
+        <circle cx="100" cy="7" r="3" fill="#FFF2CF"/>
+        <circle cx="100" cy="193" r="3" fill="#FFF2CF"/>
+        <circle cx="7" cy="100" r="3" fill="#FFF2CF"/>
+        <circle cx="193" cy="100" r="3" fill="#FFF2CF"/>
+        <circle cx="33" cy="33" r="3" fill="#FFF2CF"/>
+        <circle cx="167" cy="33" r="3" fill="#FFF2CF"/>
+        <circle cx="33" cy="167" r="3" fill="#FFF2CF"/>
+        <circle cx="167" cy="167" r="3" fill="#FFF2CF"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ENGINEERING SECTION -->
+  <section class="section-engineering" id="engineering">
+    <div class="container">
+      <div class="eng-layout">
+        <div class="eng-left">
+          <p class="section-eyebrow">Aerodynamic Mastery</p>
+          <h2 class="section-title">Born on<br /><em>the Track</em></h2>
+          <p class="eng-body">
+            The Huracán STO (Super Trofeo Omologata) is derived directly from the Super Trofeo racing series. Every surface breathes aerodynamic purpose — 37% of its components are shared directly with the race car.
+          </p>
+          <a href="#configure" class="btn-outline">Explore Engineering</a>
+        </div>
+        <div class="eng-right">
+          <div class="feature-item" data-animate>
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <div>
+              <h3 class="feature-title">Cofango Design</h3>
+              <p class="feature-desc">Single front hood-fender piece in carbon fiber. 37.7% lighter than the standard Huracán front end.</p>
+            </div>
+          </div>
+          <div class="feature-item" data-animate>
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 4v8l4 2"/></svg>
+            </div>
+            <div>
+              <h3 class="feature-title">Rear Wing Active</h3>
+              <p class="feature-desc">Adjustable rear wing delivers up to 420kg of downforce at maximum speed. Track-tunable from the cockpit.</p>
+            </div>
+          </div>
+          <div class="feature-item" data-animate>
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+            </div>
+            <div>
+              <h3 class="feature-title">STO Drive Mode</h3>
+              <p class="feature-desc">Three driving modes — STO, Trofeo, Pioggia — each tuning suspension, traction and throttle response.</p>
+            </div>
+          </div>
+          <div class="feature-item" data-animate>
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <h3 class="feature-title">Carbon Fiber Chassis</h3>
+              <p class="feature-desc">Full carbon fiber forged composite monocoque with aluminum subframes. Stiffest body in class.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO REPLAY STRIP -->
+  <section class="video-strip">
+    <div class="video-strip-inner">
+      <video src="reveal.mp4" muted autoplay loop playsinline></video>
+      <div class="video-strip-overlay">
+        <p class="strip-text">The full reveal</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section class="section-configure" id="configure">
+    <div class="cta-ring" id="ctaRing"></div>
+    <div class="container">
+      <p class="section-eyebrow">Make It Yours</p>
+      <h2 class="section-title cta-title">Configure Your<br /><em>Huracán STO</em></h2>
+      <p class="cta-body">
+        From the racing-derived cockpit to the track-tuned suspension, every detail is yours to define. Start your configuration or book a private unveiling at your nearest Lamborghini dealer.
+      </p>
+      <div class="cta-buttons">
+        <a href="#" class="btn-primary btn-large">Start Configuration</a>
+        <a href="#" class="btn-ghost btn-large">Book a Test Drive</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">
+        <svg width="32" height="22" viewBox="0 0 120 80" fill="none">
+          <path d="M60 4L116 76H4L60 4Z" fill="#E8A000"/>
+        </svg>
+        <span>AUTOMOBILI LAMBORGHINI</span>
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Dealers</a>
+        <a href="#">Press</a>
+      </div>
+      <p class="footer-copy">© 2025 Automobili Lamborghini S.p.A.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

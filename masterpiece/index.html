@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA VORTEX | Masterpiece 3D Spatial WebGL Engine</title>
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <!-- Three.js, GSAP, OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+
+  <!-- WebGL 3D Canvas -->
+  <div id="canvas-container"></div>
+
+  <!-- Aceternity UI Radial Spotlight Layer -->
+  <div class="spotlight-layer"></div>
+  <div class="ambient-glow"></div>
+
+  <!-- Spatial Glass UI Overlay -->
+  <div class="spatial-ui">
+    
+    <!-- Top Navigation Header -->
+    <header class="header-glass">
+      <div class="brand">
+        <div class="brand-logo"><i class="fa-solid fa-atom"></i></div>
+        <div>
+          <h2>AURA VORTEX</h2>
+          <span class="sub-tag">AWWWARDS-GRADE • SPATIAL 3D ENGINE</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="fps-badge" id="fps-counter"><span class="pulse"></span> 60 FPS • WEBGL 2.0</div>
+        <button class="sound-toggle-btn" id="sound-btn"><i class="fa-solid fa-volume-high"></i> AUDIO ON</button>
+        <a href="https://tharunsagarm.github.io/dev" class="portfolio-pill" target="_blank">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> DEV PORTFOLIO
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Masterpiece Hero Layout -->
+    <main class="hero-layout">
+      
+      <!-- Left Glass Control Panel -->
+      <div class="glass-panel main-panel">
+        <div class="panel-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> 18-SKILL MASTERPIECE EDITION</div>
+        <h1>Prismatic <span class="gradient-text">Spatial 3D</span> Experience</h1>
+        <p class="tagline">
+          Interactive WebGL particle simulator with physical crystal refraction, GLSL shader fog, and real-time Gemini AI Spatial Agent.
+        </p>
+
+        <!-- Magic UI Animated Border Beam Container -->
+        <div class="beam-container">
+          <div class="beam-content">
+            <div class="beam-meta">
+              <span class="lbl"><i class="fa-solid fa-layer-group"></i> ACTIVE SIMULATOR</span>
+              <span class="val">5,000 Particle Curl Noise</span>
+            </div>
+            <div class="beam-meta">
+              <span class="lbl"><i class="fa-solid fa-gem"></i> MATERIAL REFRACTION</span>
+              <span class="val">MeshPhysical Transmission</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Camera Storytelling Presets (GSAP Camera Control) -->
+        <div class="controls-group">
+          <span class="group-label">CAMERA & SCENE MODES:</span>
+          <div class="preset-buttons">
+            <button class="btn-preset active" data-mode="crystal"><i class="fa-solid fa-gem"></i> Crystal Core</button>
+            <button class="btn-preset" data-mode="vortex"><i class="fa-solid fa-hurricane"></i> Particle Vortex</button>
+            <button class="btn-preset" data-mode="lighting"><i class="fa-solid fa-lightbulb"></i> Neon Lighting</button>
+            <button class="btn-preset" data-mode="agent"><i class="fa-solid fa-robot"></i> AI Spatial Mode</button>
+          </div>
+        </div>
+
+        <!-- Interactive Configurator Toggles -->
+        <div class="config-grid">
+          <div class="config-card active" data-color="#ec4899">
+            <div class="color-dot pink"></div>
+            <div>
+              <h4>Prismatic Rose</h4>
+              <span>Neon Dispersion Shader</span>
+            </div>
+          </div>
+          <div class="config-card" data-color="#06b6d4">
+            <div class="color-dot cyan"></div>
+            <div>
+              <h4>Cyber Cyan</h4>
+              <span>Quantum Light Refraction</span>
+            </div>
+          </div>
+          <div class="config-card" data-color="#fbbf24">
+            <div class="color-dot gold"></div>
+            <div>
+              <h4>Solar Amber</h4>
+              <span>Gold Metallic Transmission</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="cta-actions">
+          <button class="btn-primary" id="open-ai-btn">
+            <i class="fa-solid fa-robot"></i> Launch AI Configurator Agent
+          </button>
+          <a href="https://wa.me/27682537360" target="_blank" class="btn-secondary">
+            <i class="fa-brands fa-whatsapp"></i> Direct WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Side AI Spatial Configurator Drawer -->
+      <div class="glass-panel ai-drawer" id="ai-drawer">
+        <div class="drawer-header">
+          <div class="ai-avatar"><i class="fa-solid fa-robot"></i></div>
+          <div>
+            <h3>Vortex AI Agent</h3>
+            <span class="ai-status"><span class="dot-green"></span> LIVE GEMINI SPATIAL AGENT</span>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+          <div class="message ai-msg">
+            Greetings! I am the Vortex Spatial AI Agent. I control 3D scene lighting, particle noise, and material dispersion. Ask me to change lighting or explain our $1,500-$5,000 spatial web builds!
+          </div>
+        </div>
+
+        <div class="quick-prompts">
+          <button class="prompt-chip" data-prompt="Change scene lighting to Cyber Cyan">Cyan Light</button>
+          <button class="prompt-chip" data-prompt="Explain $1500 Spatial Web package">Pricing</button>
+          <button class="prompt-chip" data-prompt="Trigger particle explosion">Explode</button>
+        </div>
+
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" placeholder="Type prompt to control 3D scene..." autocomplete="off">
+          <button id="send-chat-btn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
