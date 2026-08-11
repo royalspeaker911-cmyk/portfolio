@@ -3,318 +3,611 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AutoFlow — Free AI Automation Workflow Creator</title>
-  <meta name="description" content="AutoFlow is a free, visual drag-and-drop automation workflow builder. Create powerful automations with AI, triggers, conditions, and actions — no account required." />
+  <title>n8n AI Automation Templates - Tharun Sagar</title>
+  <meta name="description" content="15 battle-tested n8n AI automation workflow templates ready to import and run." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="index.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f; --bg2: #111118; --border: rgba(255,255,255,0.07);
+      --text: #f0f0ff; --muted: #7a7a9a; --accent: #ff6b35;
+      --green: #22c55e; --blue: #3b82f6; --purple: #a855f7;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: "Inter", sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,15,0.88); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-family: "Plus Jakarta Sans",sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { background: var(--accent); color: #fff !important; padding: 0.45rem 1.1rem; border-radius: 8px; font-weight: 600 !important; }
+    .hero {
+      text-align: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,107,53,0.12), transparent);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.3);
+      color: var(--accent); font-size: 0.8rem; font-weight: 600;
+      padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 1.5rem;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .hero h1 {
+      font-family: "Plus Jakarta Sans",sans-serif;
+      font-size: clamp(2.2rem,5vw,3.8rem); font-weight: 900;
+      line-height: 1.1; margin-bottom: 1.25rem; letter-spacing: -0.02em;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg,#ff6b35,#ff8c5a,#ffa07a);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero p { color: var(--muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .hero-stats { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-num { font-family: "Plus Jakarta Sans",sans-serif; font-size: 2rem; font-weight: 800; }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+    .section { padding: 4rem 2rem; max-width: 1400px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-tag {
+      display: inline-block; font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.3rem 0.9rem; border-radius: 100px; margin-bottom: 1rem;
+    }
+    .tag-advanced { background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.3); color: #c084fc; }
+    .tag-bonus { background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3); color: #4ade80; }
+    .section-header h2 {
+      font-family: "Plus Jakarta Sans",sans-serif;
+      font-size: clamp(1.6rem,3vw,2.4rem); font-weight: 800;
+      margin-bottom: 0.75rem; letter-spacing: -0.02em;
+    }
+    .section-header p { color: var(--muted); font-size: 1rem; max-width: 520px; margin: 0 auto; line-height: 1.6; }
+    .template-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(420px,1fr)); gap: 1.5rem; }
+    .card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 20px;
+      overflow: hidden; transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    .card:hover {
+      transform: translateY(-4px); border-color: rgba(255,107,53,0.3);
+      box-shadow: 0 20px 60px rgba(255,107,53,0.08);
+    }
+    .card-img-wrap { position: relative; background: #0d0d14; overflow: hidden; aspect-ratio: 16/9; }
+    .card-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top left;
+      display: block; transition: transform 0.4s;
+    }
+    .card:hover .card-img-wrap img { transform: scale(1.03); }
+    .card-num {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1); color: var(--muted);
+      font-size: 0.7rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 6px;
+    }
+    .card-price {
+      position: absolute; top: 12px; right: 12px;
+      background: rgba(255,107,53,0.9); color: #fff;
+      font-size: 0.8rem; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: 8px;
+    }
+    .card-price.free { background: rgba(34,197,94,0.85); }
+    .card-body { padding: 1.5rem; }
+    .card-title { font-family: "Plus Jakarta Sans",sans-serif; font-size: 1.1rem; font-weight: 800; margin-bottom: 0.6rem; line-height: 1.3; }
+    .card-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.1rem; }
+    .outcomes { margin-bottom: 1.1rem; }
+    .outcomes-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .outcome-list { display: flex; flex-direction: column; gap: 0.35rem; }
+    .outcome-item { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.82rem; color: #c8c8e8; line-height: 1.4; }
+    .outcome-item i { color: var(--green); font-size: 0.7rem; margin-top: 0.2rem; flex-shrink: 0; }
+    .uses { margin-bottom: 1.2rem; }
+    .uses-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.5rem; }
+    .use-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .use-tag {
+      background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2);
+      color: #93c5fd; font-size: 0.72rem; font-weight: 500; padding: 0.25rem 0.65rem; border-radius: 6px;
+    }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .nodes-badge { display: flex; align-items: center; gap: 0.4rem; color: var(--muted); font-size: 0.75rem; }
+    .nodes-badge i { color: var(--purple); }
+    .btn-get {
+      background: linear-gradient(135deg,#ff6b35,#ff8c5a); color: #fff; border: none;
+      padding: 0.5rem 1.2rem; border-radius: 8px; font-size: 0.82rem; font-weight: 700;
+      cursor: pointer; transition: opacity 0.2s, transform 0.2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-get:hover { opacity: 0.9; transform: scale(1.03); }
+    .btn-get.free-btn { background: linear-gradient(135deg,#22c55e,#16a34a); }
+    .divider { height: 1px; background: linear-gradient(90deg,transparent,var(--border),transparent); margin: 1rem 2rem; }
+    footer { text-align: center; padding: 3rem 2rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); }
+    footer a { color: var(--accent); text-decoration: none; }
+    @media (max-width: 768px) { .template-grid { grid-template-columns: 1fr; } .nav-links { display: none; } .hero-stats { gap: 2rem; } }
+  </style>
 </head>
 <body>
-  <div id="app">
 
-    <!-- ═══ TOP BAR ═══ -->
-    <header class="topbar">
-      <div class="topbar-left">
-        <div class="brand">
-          <div class="brand-icon"><i class="fa-solid fa-infinity"></i></div>
-          <div class="brand-text">
-            <span class="brand-name">AutoFlow</span>
-            <span class="brand-tag">Free Forever</span>
-          </div>
-        </div>
-        <div class="divider-v"></div>
-        <div class="workflow-name-wrap">
-          <input type="text" id="workflow-name" class="workflow-name-input" value="My First Workflow" spellcheck="false" />
-          <span class="workflow-status" id="workflow-status"><i class="fa-solid fa-circle-check"></i> Saved locally</span>
-        </div>
-      </div>
-
-      <div class="topbar-center">
-        <div class="toolbar-group">
-          <button class="tb-btn" id="btn-undo" title="Undo (Ctrl+Z)"><i class="fa-solid fa-rotate-left"></i></button>
-          <button class="tb-btn" id="btn-redo" title="Redo (Ctrl+Y)"><i class="fa-solid fa-rotate-right"></i></button>
-        </div>
-        <div class="divider-v"></div>
-        <div class="toolbar-group">
-          <button class="tb-btn" id="btn-zoom-in" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-          <span class="zoom-label" id="zoom-label">100%</span>
-          <button class="tb-btn" id="btn-zoom-out" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
-          <button class="tb-btn" id="btn-fit" title="Fit to Screen"><i class="fa-solid fa-expand"></i></button>
-        </div>
-        <div class="divider-v"></div>
-        <div class="toolbar-group">
-          <button class="tb-btn" id="btn-grid" title="Toggle Grid" data-active="true"><i class="fa-solid fa-border-all"></i></button>
-          <button class="tb-btn" id="btn-minimap" title="Toggle Minimap"><i class="fa-solid fa-map"></i></button>
-        </div>
-      </div>
-
-      <div class="topbar-right">
-        <button class="tb-btn" id="btn-save" title="Save Workflow"><i class="fa-solid fa-floppy-disk"></i> Save</button>
-        <button class="tb-btn" id="btn-load" title="Load Workflow"><i class="fa-solid fa-folder-open"></i> Load</button>
-        <button class="tb-btn" id="btn-export" title="Export as JSON"><i class="fa-solid fa-file-export"></i> Export</button>
-        <button class="tb-btn btn-clear-top" id="btn-clear" title="Clear Canvas"><i class="fa-solid fa-trash-can"></i></button>
-        <div class="divider-v"></div>
-        <button class="btn-run" id="btn-run">
-          <i class="fa-solid fa-play"></i><span>Run Workflow</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- ═══ MAIN AREA ═══ -->
-    <div class="main-area">
-
-      <!-- LEFT PANEL: NODE LIBRARY -->
-      <aside class="library-panel" id="library-panel">
-        <div class="panel-header">
-          <i class="fa-solid fa-shapes"></i> Node Library
-          <button class="panel-collapse-btn" id="btn-collapse-library" title="Collapse library">‹</button>
-        </div>
-        <div class="library-search-wrap">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="library-search" class="library-search" placeholder="Search nodes..." />
-        </div>
-
-        <div class="library-body" id="library-body">
-          <!-- TRIGGERS -->
-          <div class="lib-group">
-            <div class="lib-group-title trigger-color"><i class="fa-solid fa-bolt"></i> Triggers</div>
-            <div class="lib-nodes">
-              <div class="lib-node" data-type="trigger-manual" draggable="true">
-                <div class="lib-node-icon trigger-bg"><i class="fa-solid fa-hand-pointer"></i></div>
-                <div><div class="lib-node-name">Manual Run</div><div class="lib-node-desc">Click to start</div></div>
-              </div>
-              <div class="lib-node" data-type="trigger-schedule" draggable="true">
-                <div class="lib-node-icon trigger-bg"><i class="fa-solid fa-clock"></i></div>
-                <div><div class="lib-node-name">Schedule</div><div class="lib-node-desc">Cron / interval</div></div>
-              </div>
-              <div class="lib-node" data-type="trigger-webhook" draggable="true">
-                <div class="lib-node-icon trigger-bg"><i class="fa-solid fa-link"></i></div>
-                <div><div class="lib-node-name">Webhook</div><div class="lib-node-desc">HTTP endpoint</div></div>
-              </div>
-              <div class="lib-node" data-type="trigger-email" draggable="true">
-                <div class="lib-node-icon trigger-bg"><i class="fa-solid fa-envelope-open-text"></i></div>
-                <div><div class="lib-node-name">Email Received</div><div class="lib-node-desc">Inbox listener</div></div>
-              </div>
-              <div class="lib-node" data-type="trigger-form" draggable="true">
-                <div class="lib-node-icon trigger-bg"><i class="fa-solid fa-wpforms"></i></div>
-                <div><div class="lib-node-name">Form Submit</div><div class="lib-node-desc">On form submission</div></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- AI ENGINES -->
-          <div class="lib-group">
-            <div class="lib-group-title ai-color"><i class="fa-solid fa-brain"></i> AI Engines</div>
-            <div class="lib-nodes">
-              <div class="lib-node" data-type="ai-generate" draggable="true">
-                <div class="lib-node-icon ai-bg"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                <div><div class="lib-node-name">Generate Text</div><div class="lib-node-desc">AI-powered writing</div></div>
-              </div>
-              <div class="lib-node" data-type="ai-summarize" draggable="true">
-                <div class="lib-node-icon ai-bg"><i class="fa-solid fa-compress"></i></div>
-                <div><div class="lib-node-name">Summarize</div><div class="lib-node-desc">Condense long text</div></div>
-              </div>
-              <div class="lib-node" data-type="ai-classify" draggable="true">
-                <div class="lib-node-icon ai-bg"><i class="fa-solid fa-tags"></i></div>
-                <div><div class="lib-node-name">Classify / Tag</div><div class="lib-node-desc">Categorize content</div></div>
-              </div>
-              <div class="lib-node" data-type="ai-sentiment" draggable="true">
-                <div class="lib-node-icon ai-bg"><i class="fa-solid fa-face-smile-beam"></i></div>
-                <div><div class="lib-node-name">Sentiment Check</div><div class="lib-node-desc">Positive / Negative</div></div>
-              </div>
-              <div class="lib-node" data-type="ai-translate" draggable="true">
-                <div class="lib-node-icon ai-bg"><i class="fa-solid fa-language"></i></div>
-                <div><div class="lib-node-name">Translate</div><div class="lib-node-desc">Auto-detect & convert</div></div>
-              </div>
-              <div class="lib-node" data-type="ai-extract" draggable="true">
-                <div class="lib-node-icon ai-bg"><i class="fa-solid fa-scissors"></i></div>
-                <div><div class="lib-node-name">Data Extractor</div><div class="lib-node-desc">Pull fields from text</div></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- LOGIC -->
-          <div class="lib-group">
-            <div class="lib-group-title logic-color"><i class="fa-solid fa-code-branch"></i> Logic & Flow</div>
-            <div class="lib-nodes">
-              <div class="lib-node" data-type="logic-condition" draggable="true">
-                <div class="lib-node-icon logic-bg"><i class="fa-solid fa-code-branch"></i></div>
-                <div><div class="lib-node-name">Condition (If/Else)</div><div class="lib-node-desc">Branch on value</div></div>
-              </div>
-              <div class="lib-node" data-type="logic-delay" draggable="true">
-                <div class="lib-node-icon logic-bg"><i class="fa-solid fa-hourglass-half"></i></div>
-                <div><div class="lib-node-name">Delay / Wait</div><div class="lib-node-desc">Pause execution</div></div>
-              </div>
-              <div class="lib-node" data-type="logic-loop" draggable="true">
-                <div class="lib-node-icon logic-bg"><i class="fa-solid fa-arrows-spin"></i></div>
-                <div><div class="lib-node-name">Loop / Iterator</div><div class="lib-node-desc">Repeat for each item</div></div>
-              </div>
-              <div class="lib-node" data-type="logic-merge" draggable="true">
-                <div class="lib-node-icon logic-bg"><i class="fa-solid fa-code-merge"></i></div>
-                <div><div class="lib-node-name">Merge Data</div><div class="lib-node-desc">Combine multiple inputs</div></div>
-              </div>
-              <div class="lib-node" data-type="logic-filter" draggable="true">
-                <div class="lib-node-icon logic-bg"><i class="fa-solid fa-filter"></i></div>
-                <div><div class="lib-node-name">Filter</div><div class="lib-node-desc">Keep matching items</div></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ACTIONS -->
-          <div class="lib-group">
-            <div class="lib-group-title action-color"><i class="fa-solid fa-paper-plane"></i> Actions</div>
-            <div class="lib-nodes">
-              <div class="lib-node" data-type="action-email" draggable="true">
-                <div class="lib-node-icon action-bg"><i class="fa-solid fa-envelope"></i></div>
-                <div><div class="lib-node-name">Send Email</div><div class="lib-node-desc">Draft & dispatch</div></div>
-              </div>
-              <div class="lib-node" data-type="action-slack" draggable="true">
-                <div class="lib-node-icon action-bg"><i class="fa-brands fa-slack"></i></div>
-                <div><div class="lib-node-name">Slack Message</div><div class="lib-node-desc">Post to channel</div></div>
-              </div>
-              <div class="lib-node" data-type="action-sheets" draggable="true">
-                <div class="lib-node-icon action-bg"><i class="fa-solid fa-table-cells-large"></i></div>
-                <div><div class="lib-node-name">Google Sheets</div><div class="lib-node-desc">Append / update row</div></div>
-              </div>
-              <div class="lib-node" data-type="action-http" draggable="true">
-                <div class="lib-node-icon action-bg"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                <div><div class="lib-node-name">HTTP Request</div><div class="lib-node-desc">POST / GET to URL</div></div>
-              </div>
-              <div class="lib-node" data-type="action-database" draggable="true">
-                <div class="lib-node-icon action-bg"><i class="fa-solid fa-database"></i></div>
-                <div><div class="lib-node-name">Save to DB</div><div class="lib-node-desc">Write to local store</div></div>
-              </div>
-              <div class="lib-node" data-type="action-notification" draggable="true">
-                <div class="lib-node-icon action-bg"><i class="fa-solid fa-bell"></i></div>
-                <div><div class="lib-node-name">Browser Alert</div><div class="lib-node-desc">Push notification</div></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- TRANSFORM -->
-          <div class="lib-group">
-            <div class="lib-group-title transform-color"><i class="fa-solid fa-shuffle"></i> Transform</div>
-            <div class="lib-nodes">
-              <div class="lib-node" data-type="transform-format" draggable="true">
-                <div class="lib-node-icon transform-bg"><i class="fa-solid fa-align-left"></i></div>
-                <div><div class="lib-node-name">Text Formatter</div><div class="lib-node-desc">Clean / transform text</div></div>
-              </div>
-              <div class="lib-node" data-type="transform-json" draggable="true">
-                <div class="lib-node-icon transform-bg"><i class="fa-solid fa-brackets-curly"></i></div>
-                <div><div class="lib-node-name">JSON Parser</div><div class="lib-node-desc">Extract JSON field</div></div>
-              </div>
-              <div class="lib-node" data-type="transform-math" draggable="true">
-                <div class="lib-node-icon transform-bg"><i class="fa-solid fa-calculator"></i></div>
-                <div><div class="lib-node-name">Math Operation</div><div class="lib-node-desc">Add / subtract / calc</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      <!-- CANVAS AREA -->
-      <div class="canvas-wrap" id="canvas-wrap">
-
-        <!-- Empty state -->
-        <div class="canvas-empty" id="canvas-empty">
-          <div class="empty-icon"><i class="fa-solid fa-diagram-project"></i></div>
-          <h2>Build your first automation</h2>
-          <p>Drag a <strong>Trigger</strong> node from the left panel onto the canvas, connect it to an action, then click <strong>Run Workflow</strong>.</p>
-          <div class="empty-templates">
-            <button class="tmpl-chip" data-template="email-ai"><i class="fa-solid fa-envelope"></i> AI Email Reply</button>
-            <button class="tmpl-chip" data-template="lead-score"><i class="fa-solid fa-star"></i> Lead Scoring</button>
-            <button class="tmpl-chip" data-template="content-pipeline"><i class="fa-solid fa-pen-nib"></i> Content Pipeline</button>
-            <button class="tmpl-chip" data-template="data-clean"><i class="fa-solid fa-broom"></i> Data Cleaner</button>
-          </div>
-        </div>
-
-        <canvas id="minimap-canvas" class="minimap" style="display:none;"></canvas>
-
-        <!-- SVG for connections -->
-        <svg id="conn-svg" class="conn-svg">
-          <defs>
-            <marker id="arrow-trigger" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L8,3 z" fill="var(--c-trigger)" />
-            </marker>
-            <marker id="arrow-ai" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L8,3 z" fill="var(--c-ai)" />
-            </marker>
-            <marker id="arrow-logic" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L8,3 z" fill="var(--c-logic)" />
-            </marker>
-            <marker id="arrow-action" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L8,3 z" fill="var(--c-action)" />
-            </marker>
-            <marker id="arrow-transform" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L8,3 z" fill="var(--c-transform)" />
-            </marker>
-          </defs>
-        </svg>
-
-        <!-- The draggable nodes surface -->
-        <div class="canvas-surface" id="canvas-surface"></div>
-
-        <!-- Zoom controls on canvas -->
-        <div class="canvas-controls">
-          <button class="canvas-ctrl-btn" id="cv-zoom-in"><i class="fa-solid fa-plus"></i></button>
-          <button class="canvas-ctrl-btn" id="cv-zoom-out"><i class="fa-solid fa-minus"></i></button>
-          <button class="canvas-ctrl-btn" id="cv-fit"><i class="fa-solid fa-compress"></i></button>
-        </div>
-      </div>
-
-      <!-- RIGHT CONFIG PANEL -->
-      <aside class="config-panel" id="config-panel">
-        <div class="panel-header">
-          <i class="fa-solid fa-sliders"></i> Node Config
-          <button class="panel-close-btn" id="btn-close-config">✕</button>
-        </div>
-        <div class="config-panel-body" id="config-panel-body">
-          <div class="no-selection">
-            <i class="fa-regular fa-hand-pointer"></i>
-            <p>Click a node to configure its settings.</p>
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <!-- ═══ BOTTOM CONSOLE ═══ -->
-    <div class="console-panel" id="console-panel">
-      <div class="console-header">
-        <div class="console-left">
-          <i class="fa-solid fa-terminal"></i>
-          <span>Execution Log</span>
-          <span class="run-badge idle" id="run-badge">● Idle</span>
-        </div>
-        <div class="console-right">
-          <button class="tb-btn sm" id="btn-clear-log"><i class="fa-solid fa-eraser"></i> Clear</button>
-          <button class="tb-btn sm" id="btn-toggle-console"><i class="fa-solid fa-chevron-down"></i></button>
-        </div>
-      </div>
-      <div class="console-body" id="console-body">
-        <div class="log-entry system">[ AutoFlow ready — drag nodes from the left to begin ]</div>
-      </div>
-    </div>
-
-  </div><!-- /#app -->
-
-  <!-- LOAD MODAL -->
-  <div class="modal-overlay" id="load-modal" style="display:none">
-    <div class="modal">
-      <div class="modal-hd">
-        <h3><i class="fa-solid fa-folder-open"></i> Load Saved Workflows</h3>
-        <button class="modal-close" id="btn-close-load">✕</button>
-      </div>
-      <div class="modal-bd" id="saved-list">
-        <p class="muted-text">No saved workflows yet.</p>
-      </div>
-    </div>
+<nav>
+  <a href="../" class="nav-logo">Tharun <span>Sagar</span></a>
+  <div class="nav-links">
+    <a href="../">Portfolio</a>
+    <a href="#">Templates</a>
+    <a href="mailto:tharunsagar.dev@gmail.com" class="nav-cta">Hire Me</a>
   </div>
+</nav>
 
-  <!-- BACK TO PORTFOLIO BUTTON -->
-  <a href="../index.html#work" style="position: fixed; bottom: 30px; left: 30px; background: rgba(10,10,20,0.8); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; font-family: 'Inter', sans-serif; z-index: 9999; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s ease;">← Back to Portfolio</a>
+<section class="hero">
+  <div class="hero-badge"><i class="fa-brands fa-node-js"></i> n8n AI Automation</div>
+  <h1>Enterprise-Grade<br /><em>n8n Automation Templates</em></h1>
+  <p>15 battle-tested workflows built for real business results. Plug in your credentials, hit run and watch your operations automate themselves.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">15</div><div class="stat-label">Ready-to-use templates</div></div>
+    <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Nodes configured</div></div>
+    <div class="stat"><div class="stat-num">$34k</div><div class="stat-label">Combined value</div></div>
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Runs without you</div></div>
+  </div>
+</section>
 
-  <script src="app.js"></script>
+<!-- ADVANCED 10 -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-tag tag-advanced">Advanced Tier</span>
+    <h2>10 Enterprise-Grade Workflows</h2>
+    <p>Complex multi-step automations worth $2,500-$5,000 each. Built for founders, agencies, and growing SaaS teams.</p>
+  </div>
+  <div class="template-grid">
+
+    <!-- ADV 1 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">ADV 01</span><span class="card-price">$3,500</span>
+        <img src="images/adv1.png" alt="Full Outbound Sales Machine" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">Full Outbound Sales Machine</div>
+        <div class="card-desc">Apollo.io leads to email verify to AI score to personalized cold email to auto follow-up to hot lead Telegram alert to HubSpot CRM. A complete outbound engine with 16 nodes.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Sends 50 personalized cold emails every weekday automatically</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> 3-touch follow-up sequence with AI-written messages</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Instant Telegram alert when a prospect replies</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">B2B SaaS</span><span class="use-tag">Agencies</span><span class="use-tag">Freelancers</span><span class="use-tag">Sales Teams</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 16 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Template: Full Outbound Sales Machine" class="btn-get">Get Template</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADV 2 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">ADV 02</span><span class="card-price">$4,500</span>
+        <img src="images/adv2.png" alt="AI Churn Prevention System" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">AI Churn Prevention System</div>
+        <div class="card-desc">Pulls 30-day usage from PostgreSQL, AI predicts churn risk HIGH/MEDIUM/LOW, routes to win-back campaigns, CEO emails, or Slack alerts. 17 nodes.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Detects at-risk users before they cancel</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Auto-sends personalized win-back emails with offers</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Keeps your CS team focused on only the hottest churn risks</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">SaaS Products</span><span class="use-tag">Subscription Businesses</span><span class="use-tag">CS Teams</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 17 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Template: AI Churn Prevention" class="btn-get">Get Template</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADV 3 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">ADV 03</span><span class="card-price">$3,000</span>
+        <img src="images/adv3.png" alt="E-commerce Revenue Recovery Engine" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">E-commerce Revenue Recovery Engine</div>
+        <div class="card-desc">Shopify abandoned cart to cart value split to VIP vs standard path to AI emails + SMS via Twilio to retargeting fallback to Meta Ads. Full 3-row workflow.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Recovers 15-35% of abandoned carts automatically</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> VIP customers get founder-personal email with discount</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Meta retargeting auto-activated for non-converters</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">Shopify Stores</span><span class="use-tag">DTC Brands</span><span class="use-tag">E-commerce</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 14 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Template: Ecommerce Revenue Recovery" class="btn-get">Get Template</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADV 4 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">ADV 04</span><span class="card-price">$2,500</span>
+        <img src="images/adv4.png" alt="AI Content Repurposing Machine" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">AI Content Repurposing Machine</div>
+        <div class="card-desc">RSS feed to fetch article to AI extracts key points to splits into 6 parallel outputs: Twitter thread, LinkedIn post, Instagram carousel, newsletter, YouTube tags, SEO meta.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> 1 blog post becomes 6 platform-ready pieces of content</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Saves 4-6 hours of content work every single week</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Posts at optimal times for each platform automatically</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">Content Creators</span><span class="use-tag">Marketing Teams</span><span class="use-tag">Agencies</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 12 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Template: Content Repurposing Machine" class="btn-get">Get Template</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADV 5 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">ADV 05</span><span class="card-price">$4,000</span>
+        <img src="images/adv5.png" alt="SaaS User Onboarding Engine" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">SaaS User Onboarding Engine</div>
+        <div class="card-desc">Webhook signup to personalized path to Day 0/1/3/7/14/30 AI emails to activation check to Intercom nudge to upgrade offer to review request. Full 30-day journey.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Boosts 30-day activation rate by 40-60%</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Auto-detects stuck users and alerts your success team</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Sends upgrade offer at precisely day 14 if eligible</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">SaaS</span><span class="use-tag">Product Teams</span><span class="use-tag">Growth</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 18 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Template: SaaS Onboarding Engine" class="btn-get">Get Template</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADV 6 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">ADV 06</span><span class="card-price">$3,500</span>
+        <img src="images/adv6.png" alt="AI Hiring Pipeline Automation" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">AI Hiring Pipeline Automation</div>
+        <div class="card-desc">Typeform application to AI CV screening + score to auto interview invite + Calendly booking to Notion scorecard to offer letter or rejection email. 16 nodes.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Screens 100s of CVs in minutes with AI scoring</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Sends personalized invite or rejection automatically</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Reduces time-to-hire by 70% for growing teams</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">HR Teams</span><span class="use-tag">Startups Hiring</span><span class="use-tag">Agencies</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 16 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Template: AI Hiring Pipeline" class="btn-get">Get Template</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADV 7 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">ADV 07</span><span class="card-price">$3,000</span>
+        <img src="images/adv7.png" alt="Competitor Intelligence Monitor" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">Competitor Intelligence Monitor</div>
+        <div class="card-desc">Scrapes 10 competitor sites + G2 reviews daily to AI detects pricing/feature changes to Slack alert + CEO email + Notion update + AI response strategy. Runs 7AM every day.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Know every competitor change within hours, not weeks</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> AI suggests your response strategy immediately</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Competitor dashboard always up to date in Notion</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">SaaS Founders</span><span class="use-tag">Product Teams</span><span class="use-tag">Strategy</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 14 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Template: Competitor Intelligence" class="btn-get">Get Template</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADV 8 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">ADV 08</span><span class="card-price">$2,500</span>
+        <img src="images/adv8.png" alt="AI Invoice Payment Recovery" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">AI Invoice + Payment Recovery</div>
+        <div class="card-desc">Stripe overdue invoices to days overdue switch (7/14/30/60+) to escalating AI messages: friendly reminder to firm follow-up to SMS to final notice to legal draft. Runs daily 9AM.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Recovers 60-80% of overdue payments without manual follow-up</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Escalates tone automatically as days overdue increase</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Drafts legal notice at 60+ days and alerts CEO</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">Agencies</span><span class="use-tag">Freelancers</span><span class="use-tag">Finance Teams</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 15 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Template: AI Invoice Recovery" class="btn-get">Get Template</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADV 9 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">ADV 09</span><span class="card-price">$3,000</span>
+        <img src="images/adv9.png" alt="Full SEO Content Pipeline" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">Full SEO + Content Pipeline</div>
+        <div class="card-desc">Keyword added to Sheets to Ahrefs KD + volume to SERP analysis to AI writes 1500-word article to meta tags to WordPress draft to SEO score check to publish to distribute.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Full SEO article from keyword in under 10 minutes</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Only publishes when Rank Math score hits 80+</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Auto-distributes to social + email after publish</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">Content Teams</span><span class="use-tag">SEO Agencies</span><span class="use-tag">Bloggers</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 16 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Template: SEO Content Pipeline" class="btn-get">Get Template</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADV 10 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">ADV 10</span><span class="card-price">$5,000</span>
+        <img src="images/adv10.png" alt="Customer Lifetime Value Engine" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">Customer Lifetime Value Engine</div>
+        <div class="card-desc">Shopify order to PostgreSQL LTV history to segment (New/Returning/VIP/At-Risk) to 4 parallel personalized journeys to upsell/win-back/VIP offers to daily Slack LTV report.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Increases average LTV by 25-45% through smart segmentation</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> VIP customers get exclusive offers within minutes of purchase</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Daily Slack LTV dashboard posted automatically</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">E-commerce</span><span class="use-tag">DTC</span><span class="use-tag">SaaS</span><span class="use-tag">Retention Teams</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 20 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Template: Customer LTV Engine" class="btn-get">Get Template</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BONUS 5 -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-tag tag-bonus">Bonus Templates</span>
+    <h2>5 Essential Starter Workflows</h2>
+    <p>Free with any advanced template purchase. Perfect for getting started with n8n automation right away.</p>
+  </div>
+  <div class="template-grid">
+
+    <!-- BONUS 1 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">BONUS 01</span><span class="card-price free">FREE</span>
+        <img src="images/bonus1.png" alt="Cold Email Engine" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">Cold Email Engine + Auto-Reply Handler</div>
+        <div class="card-desc">Schedule trigger to Google Sheets leads to Loop to AI writes cold email to Gmail sends to reply detected to AI classifies interested or not to Telegram hot lead alert.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Sends personalized cold emails every day on autopilot</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> AI classifies every reply so you only talk to hot leads</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Telegram ping the moment an interested reply comes in</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">Freelancers</span><span class="use-tag">Early Startups</span><span class="use-tag">Agencies</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 10 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Bonus Template: Cold Email Engine" class="btn-get free-btn">Get Free</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- BONUS 2 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">BONUS 02</span><span class="card-price free">FREE</span>
+        <img src="images/bonus2.png" alt="AI Lead Capture CRM Bot" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">AI Lead Capture + CRM Bot</div>
+        <div class="card-desc">Website form webhook to AI scores lead 1-10 to if hot (7+): HubSpot contact + deal + welcome email. If cold: logged to Sheets. Runs on every form submission instantly.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Every lead scored by AI in under 2 seconds</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Hot leads enter HubSpot CRM with deal created automatically</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Welcome email sent instantly - never lose a hot lead again</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">Landing Pages</span><span class="use-tag">Lead Gen</span><span class="use-tag">Sales Teams</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 8 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Bonus Template: AI Lead Capture" class="btn-get free-btn">Get Free</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- BONUS 3 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">BONUS 03</span><span class="card-price free">FREE</span>
+        <img src="images/bonus3.png" alt="AI Customer Support Bot" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">AI Customer Support Bot</div>
+        <div class="card-desc">Gmail trigger to AI reads and understands issue to can AI resolve? YES: AI writes and sends solution. NO: escalate to Slack for human. Logs every resolved ticket to Sheets.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Resolves 60-70% of support emails with zero human input</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Response time drops from hours to under 60 seconds</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Your team only sees tickets AI truly cannot handle</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">SaaS</span><span class="use-tag">E-commerce</span><span class="use-tag">Small Teams</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 9 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Bonus Template: Customer Support Bot" class="btn-get free-btn">Get Free</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- BONUS 4 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">BONUS 04</span><span class="card-price free">FREE</span>
+        <img src="images/bonus4.png" alt="Social Media Auto Poster" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">Social Media Auto-Poster</div>
+        <div class="card-desc">Schedule trigger every 9AM to AI writes today's post to splits to 3 parallel outputs: Twitter thread, LinkedIn article, Instagram caption. Logs all to Sheets.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Posts across 3 platforms daily, fully automated</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> AI tailors tone and format for each platform</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Saves 45 minutes per day of social media management</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">Founders</span><span class="use-tag">Creators</span><span class="use-tag">Marketing</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 7 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Bonus Template: Social Media Auto-Poster" class="btn-get free-btn">Get Free</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- BONUS 5 -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <span class="card-num">BONUS 05</span><span class="card-price free">FREE</span>
+        <img src="images/bonus5.png" alt="GitHub Issue AI Triage Bot" />
+      </div>
+      <div class="card-body">
+        <div class="card-title">GitHub Issue AI Triage Bot</div>
+        <div class="card-desc">GitHub trigger on new issue to Code extracts fields to AI classifies BUG/FEATURE/QUESTION/CRITICAL to Switch routes to Slack alerts, Linear tickets, Notion roadmap, AI answers.</div>
+        <div class="outcomes">
+          <div class="outcomes-label">Key Outcomes</div>
+          <div class="outcome-list">
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Every issue classified and routed in under 3 seconds</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Critical bugs get instant Slack + Linear + CEO email</div>
+            <div class="outcome-item"><i class="fa-solid fa-circle-check"></i> Questions answered by AI directly in GitHub comments</div>
+          </div>
+        </div>
+        <div class="uses">
+          <div class="uses-label">Best For</div>
+          <div class="use-tags"><span class="use-tag">Dev Teams</span><span class="use-tag">Open Source</span><span class="use-tag">SaaS</span></div>
+        </div>
+        <div class="card-footer">
+          <div class="nodes-badge"><i class="fa-solid fa-circle-nodes"></i> 11 nodes</div>
+          <a href="mailto:tharunsagar.dev@gmail.com?subject=Bonus Template: GitHub Triage Bot" class="btn-get free-btn">Get Free</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <p>Built by <a href="https://tharunsagarm.github.io/dev">Tharun Sagar</a> - n8n AI Automation Expert &middot; <a href="mailto:tharunsagar.dev@gmail.com">tharunsagar.dev@gmail.com</a></p>
+  <p style="margin-top:0.5rem;font-size:0.75rem;">All templates include full JSON export, setup guide, and 30-min onboarding call.</p>
+</footer>
+
 </body>
 </html>
