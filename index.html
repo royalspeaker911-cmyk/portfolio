@@ -1429,21 +1429,28 @@ Always suggest WhatsApp as the fastest contact. End with a helpful question.`;
       return cfg;
     }
 
-    /* ---- n8n Templates Gallery (8 actual templates) ---- */
+    /* ---- n8n Templates Gallery (15 actual templates) ---- */
     var n8nNames = [
-      'Outbound Lead Scraper',
-      'AI Email Writer + Auto-Send',
-      'CRM Auto-Logger',
-      'LinkedIn Outreach Bot',
-      'Cold Email Follow-Up Sequence',
-      'Multi-Channel Outreach Flow',
-      'Sales Pipeline Automator',
-      'Outbound Sales Full System'
+      'Full Outbound Sales Machine',
+      'AI Churn Prevention System',
+      'E-commerce Revenue Recovery Engine',
+      'AI Content Repurposing Machine',
+      'SaaS User Onboarding Engine',
+      'AI Hiring Pipeline Automation',
+      'Competitor Intelligence Monitor',
+      'AI Invoice + Payment Recovery',
+      'Full SEO + Content Pipeline',
+      'Customer Lifetime Value Engine',
+      'Cold Email Engine + Auto-Reply Handler',
+      'AI Lead Capture + CRM Bot',
+      'AI Customer Support Bot',
+      'Social Media Auto-Poster',
+      'GitHub Issue AI Triage Bot'
     ];
     var n8nLB = makeLightbox({
       id: 'n8n-lb', imgId: 'nlb-img', cntId: 'nlb-counter',
       prevId: 'nlb-prev', nextId: 'nlb-next', closeId: 'nlb-close', dotsId: 'nlb-dots',
-      total: 8,
+      total: 15,
       src: function(i) { return 'n8n/n8n_' + (i + 1) + '.jpg'; },
       onShow: function(i) {
         var el = document.getElementById('nlb-name');
