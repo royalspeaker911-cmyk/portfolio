@@ -67,18 +67,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   requestAnimationFrame(updateCursorAnimations);
 
-  // Hover effects
-  const hoverEls = document.querySelectorAll('a, button, .service-card, .work-card, .filter-btn');
-  hoverEls.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.classList.add('active');
-      cursorFollower.classList.add('active');
+  // Hover effects — guard against null cursor (e.g. mobile/touch)
+  if (cursor && cursorFollower) {
+    const hoverEls = document.querySelectorAll('a, button, .service-card, .work-card, .filter-btn');
+    hoverEls.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.classList.add('active');
+        cursorFollower.classList.add('active');
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.classList.remove('active');
+        cursorFollower.classList.remove('active');
+      });
     });
-    el.addEventListener('mouseleave', () => {
-      cursor.classList.remove('active');
-      cursorFollower.classList.remove('active');
-    });
-  });
+  }
 
   // ============================================
   // 3. NAVBAR SCROLL
@@ -407,6 +409,24 @@ document.addEventListener('DOMContentLoaded', () => {
     card.addEventListener('mouseleave', () => {
       card.style.transform = '';
       card.style.transition = 'transform 0.5s ease';
+    });
+  });
+
+  // Pricing + Testimonial cards tilt (restored — was accidentally removed)
+  const extraTiltCards = document.querySelectorAll('.pricing-card, .testimonial-card');
+  extraTiltCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const rotX = ((y - rect.height / 2) / rect.height) * -8;
+      const rotY = ((x - rect.width / 2) / rect.width) * 8;
+      card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
+      card.style.transition = 'transform 0.08s ease';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)';
+      card.style.transition = 'transform 0.5s cubic-bezier(0.23,1,0.32,1)';
     });
   });
 
