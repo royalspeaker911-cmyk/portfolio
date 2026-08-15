@@ -525,30 +525,27 @@
           </div>
         </div>
 
-        <!-- Graphic Design, Ads & Posters -- Simple wide card with title -->
-        <div class="work-card" data-category="social" id="work-ads" style="grid-column: 1 / -1; overflow:hidden; border-radius:16px;">
-          <div style="background:#111; padding: 32px 40px; display:flex; flex-direction:column; gap:20px;">
-            <!-- Title Row -->
+        <!-- Graphic Design, Ads & Posters -->
+        <div class="work-card" data-category="social" id="work-ads" style="grid-column: 1 / -1; overflow:hidden; border-radius:16px; background:#111;">
+          <!-- Top row: title left, button right — always visible -->
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:28px 36px 20px;">
             <div>
-              <span style="display:inline-block;background:#e63946;color:#fff;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:12px;">Graphic Design &amp; Ads</span>
-              <h3 style="color:#fff;font-size:28px;font-weight:800;margin:0 0 6px;">Graphic Design &amp; Ads Posters</h3>
-              <p style="color:rgba(255,255,255,0.5);font-size:14px;margin:0;">Nike &middot; Chanel &middot; Monster Energy &middot; RedTape &middot; New Balance &middot; Rosadia &middot; Food &middot; Skincare &amp; Fragrance &mdash; 25 Designs</p>
+              <span style="display:inline-block;background:#e63946;color:#fff;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:10px;">Graphic Design &amp; Ads</span>
+              <h3 style="color:#fff;font-size:24px;font-weight:800;margin:0 0 4px;">Graphic Design &amp; Ads Posters</h3>
+              <p style="color:rgba(255,255,255,0.45);font-size:13px;margin:0;">Nike &middot; Chanel &middot; Monster Energy &middot; RedTape &middot; New Balance &middot; Rosadia &middot; Food &middot; Skincare &amp; Fragrance &mdash; 25 Designs</p>
             </div>
-            <!-- Preview strip: 5 images -->
-            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;height:200px;">
-              <img src="ads/ad_poster_1.jpg"  style="width:100%;height:100%;object-fit:cover;border-radius:10px;" alt="Ad">
-              <img src="ads/ad_poster_5.jpg"  style="width:100%;height:100%;object-fit:cover;border-radius:10px;" alt="Ad">
-              <img src="ads/ad_poster_10.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" alt="Ad">
-              <img src="ads/ad_poster_15.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" alt="Ad">
-              <img src="ads/ad_poster_20.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" alt="Ad">
-            </div>
-            <!-- CTA -->
-            <div style="display:flex;align-items:center;gap:16px;">
-              <button onclick="openAdsLightbox(0)" style="background:#e63946;color:#fff;border:none;padding:12px 28px;border-radius:50px;font-weight:700;font-size:14px;cursor:pointer;">View All 25 Designs &#8594;</button>
-              <span style="color:rgba(255,255,255,0.3);font-size:13px;">Click any image to browse all 25 one by one</span>
-            </div>
+            <button onclick="openAdsLightbox(0)" style="flex-shrink:0;background:#e63946;color:#fff;border:none;padding:14px 32px;border-radius:50px;font-weight:800;font-size:15px;cursor:pointer;white-space:nowrap;">&#9654; View All 25 Designs</button>
+          </div>
+          <!-- Preview strip: 5 images clickable -->
+          <div onclick="openAdsLightbox(0)" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:0 36px 28px;cursor:pointer;">
+            <img src="ads/ad_poster_1.jpg"  style="width:100%;height:160px;object-fit:cover;border-radius:10px;" alt="Ad 1">
+            <img src="ads/ad_poster_5.jpg"  style="width:100%;height:160px;object-fit:cover;border-radius:10px;" alt="Ad 5">
+            <img src="ads/ad_poster_10.jpg" style="width:100%;height:160px;object-fit:cover;border-radius:10px;" alt="Ad 10">
+            <img src="ads/ad_poster_15.jpg" style="width:100%;height:160px;object-fit:cover;border-radius:10px;" alt="Ad 15">
+            <img src="ads/ad_poster_20.jpg" style="width:100%;height:160px;object-fit:cover;border-radius:10px;" alt="Ad 20">
           </div>
         </div>
+
 
 
     </div>
