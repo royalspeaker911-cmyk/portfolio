@@ -874,7 +874,9 @@
     function openVideoModal() {
       document.getElementById('videoOverlay').classList.add('active');
       document.getElementById('videoModal').classList.add('active');
-      document.body.style.overflow = 'hidden';
+      // Use lenis.stop() if available, otherwise fallback to overflow:hidden
+      if (window._lenis) window._lenis.stop();
+      else document.body.style.overflow = 'hidden';
       // Auto-play video when modal opens
       const vid = document.getElementById('introVideo');
       if (vid) { vid.currentTime = 0; vid.play(); }
@@ -882,7 +884,9 @@
     function closeVideoModal() {
       document.getElementById('videoOverlay').classList.remove('active');
       document.getElementById('videoModal').classList.remove('active');
-      document.body.style.overflow = '';
+      // Resume lenis or restore overflow
+      if (window._lenis) window._lenis.start();
+      else document.body.style.overflow = '';
       // Pause video when modal closes
       const vid = document.getElementById('introVideo');
       if (vid) { vid.pause(); vid.currentTime = 0; }
