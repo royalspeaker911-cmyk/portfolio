@@ -11,8 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // ============================================
   const loader = document.getElementById('loader');
   setTimeout(() => {
-    loader.classList.add('hidden');
-    document.body.style.overflow = 'auto';
+    if (loader) loader.classList.add('hidden');
+    // Don't set overflow:auto here — Lenis manages scroll overflow.
+    // Only set it if Lenis is NOT loaded.
+    if (typeof Lenis === 'undefined') {
+      document.body.style.overflow = 'auto';
+    }
     startHeroAnimations();
   }, 2000);
 
@@ -460,16 +464,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ============================================
   // 12. SMOOTH PARALLAX ON HERO
+  // NOTE: Handled in the Lenis block below (passive listener).
+  // Removed duplicate here to prevent scroll jitter.
   // ============================================
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    const heroContent = document.querySelector('.hero-content');
-    const heroBadge = document.querySelector('.hero-badge');
-    if (heroContent && scrollY < window.innerHeight) {
-      heroContent.style.transform = `translateY(${scrollY * 0.25}px)`;
-      heroContent.style.opacity = 1 - scrollY / (window.innerHeight * 0.8);
-    }
-  });
 
   // ============================================
   // 13. ACTIVE NAV LINK ON SCROLL
@@ -629,15 +626,19 @@ if (typeof Lenis !== 'undefined') {
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smooth: true,
   });
-  function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); }
-  requestAnimationFrame(lenisRaf);
 
-  // Connect with GSAP ScrollTrigger if available
+  // FIX: Use ONLY ONE method to drive Lenis RAF — not both.
+  // If GSAP is available, use gsap.ticker (more accurate).
+  // Otherwise fall back to requestAnimationFrame.
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
     lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.add((time) => lenis.raf(time * 1000)); // Only GSAP ticker
     gsap.ticker.lagSmoothing(0);
+  } else {
+    // Only RAF when GSAP not available
+    function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); }
+    requestAnimationFrame(lenisRaf);
   }
 
   // Smooth anchor clicks
@@ -651,24 +652,9 @@ if (typeof Lenis !== 'undefined') {
   console.log('%c🌊 Lenis smooth scroll active', 'color: #6366f1; font-weight: bold;');
 }
 
-// ── 3D CARD TILT ─────────────────────────────────────────────
+// ── 3D CARD TILT — handled in first DOMContentLoaded block above ─
+// Removed duplicate listener here to prevent conflicting transforms.
 document.addEventListener('DOMContentLoaded', () => {
-  const tiltCards = document.querySelectorAll('.service-card, .work-card, .pricing-card, .testimonial-card');
-  tiltCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const rotX = ((y - rect.height / 2) / rect.height) * -10;
-      const rotY = ((x - rect.width / 2) / rect.width) * 10;
-      card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
-      card.style.transition = 'transform 0.08s ease';
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)';
-      card.style.transition = 'transform 0.5s cubic-bezier(0.23,1,0.32,1)';
-    });
-  });
 
   // ── MAGNETIC BUTTONS ───────────────────────────────────────
   const magnetBtns = document.querySelectorAll('.cta-btn, .nav-cta, .btn-primary, .hero-cta, .contact-btn');
@@ -693,7 +679,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', () => {
       const sy = window.scrollY;
       heroContent.style.transform = `translateY(${sy * 0.28}px)`;
-      heroContent.style.opacity = `${1 - sy / 700}`;
+      // FIX: Clamp opacity to 0 minimum so it never goes negative
+      heroContent.style.opacity = `${Math.max(0, 1 - sy / 700)}`;
+      // FIX: Only move shapes if not already handled by mousemove parallax
       heroShapes.forEach((s, i) => {
         s.style.transform = `translateY(${sy * (0.1 + i * 0.08)}px)`;
       });
