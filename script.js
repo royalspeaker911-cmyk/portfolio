@@ -617,3 +617,105 @@ document.addEventListener('DOMContentLoaded', () => {
 
   console.log('%c✨ Portfolio Loaded — Tharun Sagar', 'color: #DC143C; font-size: 16px; font-weight: bold;');
 });
+
+// ============================================================
+// ✨ PREMIUM EFFECTS — Lenis + GSAP + 3D Tilt + Magnetic
+// ============================================================
+
+// ── LENIS SMOOTH SCROLL ──────────────────────────────────────
+if (typeof Lenis !== 'undefined') {
+  const lenis = new Lenis({
+    duration: 1.4,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smooth: true,
+  });
+  function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); }
+  requestAnimationFrame(lenisRaf);
+
+  // Connect with GSAP ScrollTrigger if available
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  // Smooth anchor clicks
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      const target = document.querySelector(anchor.getAttribute('href'));
+      if (target) { e.preventDefault(); lenis.scrollTo(target, { offset: -80, duration: 1.5 }); }
+    });
+  });
+
+  console.log('%c🌊 Lenis smooth scroll active', 'color: #6366f1; font-weight: bold;');
+}
+
+// ── 3D CARD TILT ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const tiltCards = document.querySelectorAll('.service-card, .work-card, .pricing-card, .testimonial-card');
+  tiltCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const rotX = ((y - rect.height / 2) / rect.height) * -10;
+      const rotY = ((x - rect.width / 2) / rect.width) * 10;
+      card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
+      card.style.transition = 'transform 0.08s ease';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)';
+      card.style.transition = 'transform 0.5s cubic-bezier(0.23,1,0.32,1)';
+    });
+  });
+
+  // ── MAGNETIC BUTTONS ───────────────────────────────────────
+  const magnetBtns = document.querySelectorAll('.cta-btn, .nav-cta, .btn-primary, .hero-cta, .contact-btn');
+  magnetBtns.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = (e.clientX - rect.left - rect.width / 2) * 0.3;
+      const y = (e.clientY - rect.top - rect.height / 2) * 0.3;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+      btn.style.transition = 'transform 0.1s ease';
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'translate(0,0)';
+      btn.style.transition = 'transform 0.5s cubic-bezier(0.23,1,0.32,1)';
+    });
+  });
+
+  // ── PARALLAX HERO ──────────────────────────────────────────
+  const heroContent = document.querySelector('.hero-content');
+  const heroShapes = document.querySelectorAll('.shape');
+  if (heroContent) {
+    window.addEventListener('scroll', () => {
+      const sy = window.scrollY;
+      heroContent.style.transform = `translateY(${sy * 0.28}px)`;
+      heroContent.style.opacity = `${1 - sy / 700}`;
+      heroShapes.forEach((s, i) => {
+        s.style.transform = `translateY(${sy * (0.1 + i * 0.08)}px)`;
+      });
+    }, { passive: true });
+  }
+
+  // ── GSAP SCROLL REVEAL (enhance existing) ─────────────────
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    // Stagger service cards
+    gsap.utils.toArray('.service-card').forEach((card, i) => {
+      gsap.from(card, {
+        y: 50, opacity: 0, duration: 0.8, delay: i * 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: card, start: 'top 88%', once: true }
+      });
+    });
+    // Stagger work cards
+    gsap.utils.toArray('.work-card').forEach((card, i) => {
+      gsap.from(card, {
+        y: 40, opacity: 0, duration: 0.7, delay: i * 0.08, ease: 'power3.out',
+        scrollTrigger: { trigger: card, start: 'top 88%', once: true }
+      });
+    });
+    console.log('%c⚡ GSAP ScrollTrigger active', 'color: #a855f7; font-weight: bold;');
+  }
+});
