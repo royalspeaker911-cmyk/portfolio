@@ -2260,3 +2260,19 @@ section { position: relative; overflow: hidden; }
     padding: 60px 0;
   }
 }
+
+/* ===== ADS MARQUEE ANIMATIONS ===== */
+@keyframes scrollLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes scrollRight {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+.ads-marquee-wrap:hover > div {
+  animation-play-state: paused;
+}
+#work-ads .work-card-img {
+  background: #0a0a0a;
+}
