@@ -627,6 +627,9 @@ if (typeof Lenis !== 'undefined') {
     smooth: true,
   });
 
+  // Expose globally so modal functions (openBooking/closeBooking) can stop/start it
+  window._lenis = lenis;
+
   // FIX: Use ONLY ONE method to drive Lenis RAF — not both.
   // If GSAP is available, use gsap.ticker (more accurate).
   // Otherwise fall back to requestAnimationFrame.
@@ -674,17 +677,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── PARALLAX HERO ──────────────────────────────────────────
   const heroContent = document.querySelector('.hero-content');
-  const heroShapes = document.querySelectorAll('.shape');
   if (heroContent) {
     window.addEventListener('scroll', () => {
       const sy = window.scrollY;
       heroContent.style.transform = `translateY(${sy * 0.28}px)`;
-      // FIX: Clamp opacity to 0 minimum so it never goes negative
+      // Clamp opacity to 0 minimum so it never goes negative
       heroContent.style.opacity = `${Math.max(0, 1 - sy / 700)}`;
-      // FIX: Only move shapes if not already handled by mousemove parallax
-      heroShapes.forEach((s, i) => {
-        s.style.transform = `translateY(${sy * (0.1 + i * 0.08)}px)`;
-      });
+      // NOTE: Shapes NOT moved here — mousemove parallax handles them
+      // to avoid transform conflict between scroll and mouse events.
     }, { passive: true });
   }
 

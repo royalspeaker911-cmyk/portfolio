@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <!-- Three.js loaded at bottom of body near script.js to avoid duplicate load -->
   <!-- GSAP + ScrollTrigger + Lenis (added for premium effects) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -860,12 +860,16 @@
     function openBooking() {
       document.getElementById('bookingOverlay').classList.add('active');
       document.getElementById('bookingModal').classList.add('active');
-      document.body.style.overflow = 'hidden';
+      // Use lenis.stop() if available, otherwise fallback to overflow:hidden
+      if (window._lenis) window._lenis.stop();
+      else document.body.style.overflow = 'hidden';
     }
     function closeBooking() {
       document.getElementById('bookingOverlay').classList.remove('active');
       document.getElementById('bookingModal').classList.remove('active');
-      document.body.style.overflow = '';
+      // Resume lenis or restore overflow
+      if (window._lenis) window._lenis.start();
+      else document.body.style.overflow = '';
     }
     function openVideoModal() {
       document.getElementById('videoOverlay').classList.add('active');
