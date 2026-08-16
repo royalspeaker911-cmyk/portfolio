@@ -9,6 +9,24 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+  /* DepthCarousel — Ads Section */
+  .depth-carousel{position:relative;width:100%;height:100%;min-height:320px;display:flex;align-items:center;justify-content:center;perspective:var(--dc-perspective,1400px);perspective-origin:50% 50%;touch-action:pan-y;outline:none;user-select:none;-webkit-user-select:none;cursor:grab;}
+  .depth-carousel:active{cursor:grabbing;}
+  .depth-carousel:focus-visible{outline:2px solid rgba(255,255,255,.5);outline-offset:4px;border-radius:12px;}
+  .depth-carousel__stage{position:absolute;inset:0;transform-style:preserve-3d;}
+  .depth-carousel__card{position:absolute;top:50%;left:50%;transform-origin:center center;overflow:hidden;background:#0b0d12;box-shadow:0 30px 60px -20px rgba(0,0,0,.65),0 8px 20px -10px rgba(0,0,0,.5);will-change:transform,opacity,filter;cursor:pointer;transform:translate(-50%,-50%);}
+  .depth-carousel__img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none;}
+  .depth-carousel__tint{position:absolute;inset:0;opacity:0;pointer-events:none;mix-blend-mode:multiply;}
+  .depth-carousel__arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3000;width:42px;height:42px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(18,20,26,.55);backdrop-filter:blur(8px);color:#fff;cursor:pointer;transition:background .2s ease,border-color .2s ease,transform .2s ease;}
+  .depth-carousel__arrow:hover{background:rgba(28,31,40,.85);border-color:rgba(255,255,255,.4);}
+  .depth-carousel__arrow:active{transform:translateY(-50%) scale(.94);}
+  .depth-carousel__arrow--prev{left:16px;}
+  .depth-carousel__arrow--next{right:16px;}
+  .depth-carousel__dots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:3000;display:flex;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(14,16,22,.4);backdrop-filter:blur(6px);}
+  .depth-carousel__dot{width:7px;height:7px;padding:0;border:none;border-radius:999px;background:rgba(255,255,255,.32);cursor:pointer;transition:width .25s ease,background .25s ease;}
+  .depth-carousel__dot.is-active{width:20px;background:#fff;}
+  </style>
   <!-- Three.js loaded at bottom of body near script.js to avoid duplicate load -->
   <!-- GSAP + ScrollTrigger + Lenis (added for premium effects) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -536,14 +554,8 @@
               &#9654;&nbsp; View All 25 Designs
             </button>
           </div>
-          <!-- 5 preview images — clicking opens lightbox -->
-          <div onclick="openAdsLightbox(0)" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:0 32px 28px;cursor:pointer;">
-            <img src="ads/ad_poster_1.jpg"  style="width:100%;height:150px;object-fit:cover;border-radius:10px;" alt="Ad">
-            <img src="ads/ad_poster_5.jpg"  style="width:100%;height:150px;object-fit:cover;border-radius:10px;" alt="Ad">
-            <img src="ads/ad_poster_10.jpg" style="width:100%;height:150px;object-fit:cover;border-radius:10px;" alt="Ad">
-            <img src="ads/ad_poster_15.jpg" style="width:100%;height:150px;object-fit:cover;border-radius:10px;" alt="Ad">
-            <img src="ads/ad_poster_20.jpg" style="width:100%;height:150px;object-fit:cover;border-radius:10px;" alt="Ad">
-          </div>
+          <!-- DepthCarousel — all 25 ads in 3D depth stack -->
+          <div id="ads-depth-carousel" class="depth-carousel" style="height:420px;position:relative;margin:0 0 8px;" role="group" aria-label="Ads Carousel"></div>
         </div>
 
 
@@ -1464,6 +1476,163 @@ Always suggest WhatsApp as the fastest contact. End with a helpful question.`;
       src: function(i) { return 'ads/ad_poster_' + (i + 1) + '.jpg'; }
     });
     window.openAdsLightbox = function(i) { adsLB.openFn(i || 0); };
+
+    /* ---- DepthCarousel — Ads Section (Vanilla JS) ---- */
+    (function() {
+      var container = document.getElementById('ads-depth-carousel');
+      if (!container || typeof gsap === 'undefined') return;
+
+      var count = 25;
+      var items = [];
+      for (var k = 1; k <= count; k++) items.push({ image: 'ads/ad_poster_' + k + '.jpg', alt: 'Ad Design ' + k });
+
+      var opts = { cardWidth:260, cardHeight:340, radius:18, tint:'#05060a', depth:200, spread:75,
+        tilt:20, tiltDirection:'right', perspective:1400, visibleCards:4, falloff:0.2, blur:6,
+        duration:0.7, ease:'power3.out', autoplay:true, autoplayDelay:2800, loop:true };
+
+      container.style.setProperty('--dc-perspective', opts.perspective + 'px');
+
+      var stage = document.createElement('div');
+      stage.className = 'depth-carousel__stage';
+      container.appendChild(stage);
+
+      var cardEls = [], overlayEls = [], dotEls = [];
+      items.forEach(function(item, i) {
+        var card = document.createElement('div');
+        card.className = 'depth-carousel__card';
+        card.style.cssText = 'width:'+opts.cardWidth+'px;height:'+opts.cardHeight+'px;border-radius:'+opts.radius+'px;';
+        var img = document.createElement('img');
+        img.className = 'depth-carousel__img';
+        img.src = item.image; img.alt = item.alt; img.draggable = false;
+        var tintEl = document.createElement('span');
+        tintEl.className = 'depth-carousel__tint'; tintEl.style.background = opts.tint;
+        card.appendChild(img); card.appendChild(tintEl);
+        card.addEventListener('click', (function(idx){ return function(){ if(!drag||!drag.moved) setFocus(idx,true); }; })(i));
+        stage.appendChild(card); cardEls.push(card); overlayEls.push(tintEl);
+      });
+
+      ['prev','next'].forEach(function(dir) {
+        var btn = document.createElement('button');
+        btn.type='button'; btn.className='depth-carousel__arrow depth-carousel__arrow--'+dir;
+        btn.setAttribute('aria-label', dir==='prev'?'Previous slide':'Next slide');
+        btn.innerHTML = dir==='prev'
+          ? '<svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+          : '<svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        btn.addEventListener('click', function(){ navigateBy(dir==='prev'?-1:1); });
+        container.appendChild(btn);
+      });
+
+      var dotsWrap = document.createElement('div');
+      dotsWrap.className = 'depth-carousel__dots';
+      items.forEach(function(_,i){
+        var dot = document.createElement('button');
+        dot.type='button'; dot.className='depth-carousel__dot'+(i===0?' is-active':'');
+        dot.setAttribute('aria-label','Go to slide '+(i+1));
+        dot.addEventListener('click',(function(idx){ return function(){ setFocus(idx,true); }; })(i));
+        dotsWrap.appendChild(dot); dotEls.push(dot);
+      });
+      container.appendChild(dotsWrap);
+
+      function clamp(v,a,b){return Math.min(Math.max(v,a),b);}
+      var pos=0, focus=0, sc=1, currentTween=null, drag=null;
+
+      function layout(p) {
+        var dir = opts.tiltDirection==='left'?-1:1;
+        for(var i=0;i<count;i++) {
+          var el=cardEls[i]; if(!el) continue;
+          var d=i-p;
+          if(opts.loop&&count>1){d=((d%count)+count)%count; if(d>count/2)d-=count;}
+          var back=Math.max(0,d), az=Math.abs(d), shown=az<=opts.visibleCards+0.5;
+          var tz=-opts.depth*d, tx=dir*opts.spread*d, ry=dir*opts.tilt*clamp(d,0,1);
+          var opacity=d<0?Math.max(0,1+d):1; if(!shown)opacity=0;
+          var bri=Math.max(0.15,1-back*opts.falloff);
+          var blurPx=opts.blur>0?Math.min(opts.blur,(back/Math.max(1,opts.visibleCards))*opts.blur):0;
+          el.style.transform='translate(-50%,-50%) scale('+sc+') translateX('+tx.toFixed(2)+'px) translateZ('+tz.toFixed(2)+'px) rotateY('+ry.toFixed(3)+'deg)';
+          el.style.opacity=opacity.toFixed(3); el.style.zIndex=String(Math.round(2000-d*20));
+          el.style.filter='brightness('+bri.toFixed(3)+') blur('+blurPx.toFixed(2)+'px)';
+          el.style.pointerEvents=(shown&&opacity>0.05)?'auto':'none';
+          if(overlayEls[i]) overlayEls[i].style.opacity=clamp(back*opts.falloff*1.25,0,0.86).toFixed(3);
+        }
+      }
+
+      function updateDots(idx){
+        dotEls.forEach(function(d,i){d.className='depth-carousel__dot'+(i===idx?' is-active':'');});
+      }
+
+      function tweenTo(target,animate){
+        if(currentTween) currentTween.kill();
+        var proxy={p:pos};
+        currentTween=gsap.to(proxy,{p:target,duration:animate?opts.duration:0,ease:opts.ease,
+          onUpdate:function(){pos=proxy.p;layout(proxy.p);},
+          onComplete:function(){if(count>0)pos=((pos%count)+count)%count;layout(pos);}});
+      }
+
+      function setFocus(rawIdx,animate){
+        var idx=opts.loop?((rawIdx%count)+count)%count:clamp(rawIdx,0,count-1);
+        var delta=idx-pos;
+        if(opts.loop&&count>1){delta=((delta%count)+count)%count; if(delta>count/2)delta-=count;}
+        tweenTo(pos+delta,animate!==false);
+        if(idx!==focus){focus=idx; updateDots(idx);}
+      }
+
+      function navigateBy(step){setFocus(focus+step,true);}
+
+      container.setAttribute('tabindex','0');
+      container.addEventListener('keydown',function(e){
+        if(e.key==='ArrowLeft'){e.preventDefault();navigateBy(-1);}
+        else if(e.key==='ArrowRight'){e.preventDefault();navigateBy(1);}
+      });
+
+      var wheelTimer=null;
+      container.addEventListener('wheel',function(e){
+        e.preventDefault(); if(currentTween) currentTween.kill();
+        var raw=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;
+        var step=clamp((e.deltaMode===1?raw*24:raw)/(opts.cardWidth*0.9),-0.6,0.6);
+        pos+=step; layout(pos);
+        if(wheelTimer) clearTimeout(wheelTimer);
+        wheelTimer=setTimeout(function(){setFocus(Math.round(pos),true);},130);
+      },{passive:false});
+
+      container.addEventListener('pointerdown',function(e){
+        if(currentTween) currentTween.kill();
+        drag={x:e.clientX,startPos:pos,lastX:e.clientX,lastT:performance.now(),v:0,moved:false,id:e.pointerId};
+      });
+      container.addEventListener('pointermove',function(e){
+        if(!drag) return;
+        var stepPx=Math.max(opts.cardWidth*0.55*sc,40), dx=e.clientX-drag.x;
+        if(!drag.moved&&Math.abs(dx)>4){drag.moved=true;container.setPointerCapture(drag.id);}
+        if(!drag.moved) return;
+        var now=performance.now(),dt=Math.max(now-drag.lastT,1);
+        drag.v=(e.clientX-drag.lastX)/dt; drag.lastX=e.clientX; drag.lastT=now;
+        pos=drag.startPos-dx/stepPx; layout(pos);
+      });
+      function endDrag(){
+        if(!drag) return; var d=drag; drag=null; if(!d.moved) return;
+        var stepPx=Math.max(opts.cardWidth*0.55*sc,40);
+        setFocus(Math.round(pos-(d.v*180)/stepPx),true);
+      }
+      container.addEventListener('pointerup',endDrag);
+      container.addEventListener('pointercancel',endDrag);
+
+      if(typeof ResizeObserver!=='undefined'){
+        new ResizeObserver(function(entries){
+          var w=entries[0].contentRect.width;
+          sc=clamp(w/(opts.cardWidth+Math.abs(opts.spread)*2+120),0.4,1);
+          layout(pos);
+        }).observe(container);
+      }
+
+      if(opts.autoplay&&count>1){
+        var hov=false,foc=false;
+        container.addEventListener('mouseenter',function(){hov=true;});
+        container.addEventListener('mouseleave',function(){hov=false;});
+        container.addEventListener('focusin',function(){foc=true;});
+        container.addEventListener('focusout',function(){foc=false;});
+        setInterval(function(){if(!hov&&!foc)navigateBy(1);},Math.max(opts.autoplayDelay,600));
+      }
+
+      layout(0);
+    })();
   </script>
 
 </body>
