@@ -401,4 +401,17 @@ BUILD REQUEST:
 
 ---
 
-*Rules 31 through 41 are 100% PERMANENTLY LOCKED.*
+### ❌ RULE 42: BEFORE BUILDING ANY UI — READ & USE WHAT YOU ALREADY HAVE
+* **What happened**: Had Magic UI MCP, OriginKit MCP, and 21st-dev-ui-ux-max skill connected the entire time but built everything from scratch with basic manual HTML. Output was mediocre — buttons invisible, no animations, no premium feel.
+* **Rule**: Before writing ANY UI code manually, you MUST:
+  1. **Read the `21st-dev-ui-ux-max` skill** (`view_file` on the SKILL.md) for premium component patterns
+  2. **Check Magic UI MCP** (`listRegistryItems` or `searchRegistryItems`) for ready-made animated components
+  3. **Check OriginKit MCP** (`search` or `list_components`) for additional UI components
+  4. **Only write manually** if no suitable component exists in any of the above
+* **Applies to**: Every build, every section, every card, every button — no exceptions.
+* **Enforcement**: The first action on any build task must be reading the skill and querying the MCPs. Never start with blank HTML.
+
+---
+
+*Rules 31 through 42 are 100% PERMANENTLY LOCKED.*
+
