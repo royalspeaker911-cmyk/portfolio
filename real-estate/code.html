@@ -1,0 +1,831 @@
+﻿<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Heritage &amp; Hearth | Luxury Real Estate</title>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#000000",
+                        "on-error-container": "#93000a",
+                        "surface": "#f7f9fb",
+                        "on-surface-variant": "#45464d",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#131b2e",
+                        "surface-variant": "#e0e3e5",
+                        "on-primary": "#ffffff",
+                        "on-background": "#191c1e",
+                        "primary-fixed": "#dae2fd",
+                        "background": "#f7f9fb",
+                        "inverse-primary": "#bec6e0",
+                        "secondary": "#9b4500",
+                        "on-tertiary-container": "#77859a",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "on-tertiary-fixed": "#0d1c2e",
+                        "surface-container": "#eceef0",
+                        "on-secondary-container": "#682c00",
+                        "on-secondary-fixed-variant": "#763300",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#0d1c2e",
+                        "on-secondary-fixed": "#331200",
+                        "secondary-fixed": "#ffdbca",
+                        "primary-fixed-dim": "#bec6e0",
+                        "tertiary": "#000000",
+                        "surface-dim": "#d8dadc",
+                        "on-primary-fixed": "#131b2e",
+                        "surface-tint": "#565e74",
+                        "tertiary-fixed-dim": "#b9c7df",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-primary-container": "#7c839b",
+                        "on-surface": "#191c1e",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary-fixed-dim": "#ffb68e",
+                        "outline-variant": "#c6c6cd",
+                        "tertiary-fixed": "#d5e3fc",
+                        "on-tertiary-fixed-variant": "#3a485b",
+                        "inverse-surface": "#2d3133",
+                        "surface-container-low": "#f2f4f6",
+                        "outline": "#76777d",
+                        "secondary-container": "#fd8a42",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#eff1f3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "base": "8px",
+                        "section-gap": "120px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Playfair Display"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Playfair Display"],
+                        "label-bold": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg-mobile": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-bold": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* ── Mobile drawer ─────────────────────────────────── */
+        #mobile-menu {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform: translateY(-8px);
+            opacity: 0;
+            pointer-events: none;
+        }
+        #mobile-menu.open {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ── Toast notification ─────────────────────────────── */
+        #toast {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            opacity: 0;
+            transform: translateY(16px);
+            pointer-events: none;
+        }
+        #toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── HERO: Ken Burns slow pan (mirrors ezgif video) ─── */
+        /* The villa footage pans gently right → we do same with
+           a CSS keyframe: scale up slightly + translate X left-to-right */
+        @keyframes heroPan {
+            0%   { transform: scale(1.12) translateX(-4%); }
+            50%  { transform: scale(1.08) translateX(0%);  }
+            100% { transform: scale(1.12) translateX(4%);  }
+        }
+        .hero-bg {
+            animation: heroPan 28s ease-in-out infinite alternate;
+            transform-origin: center center;
+            will-change: transform;
+        }
+
+        /* ── HERO: Parallax on scroll ──────────────────────── */
+        .hero-parallax-wrapper {
+            overflow: hidden;
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .hero-bg {
+            width: 110%;
+            height: 110%;
+            left: -5%;
+            top: -5%;
+            position: absolute;
+            object-fit: cover;
+        }
+
+        /* ── SCROLL REVEAL system ──────────────────────────── */
+        /* Base hidden state */
+        [data-reveal] {
+            opacity: 0;
+            transition-property: opacity, transform;
+            transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+            transition-duration: 0.75s;
+        }
+        [data-reveal="fade-up"]    { transform: translateY(48px); }
+        [data-reveal="fade-left"]  { transform: translateX(-48px); }
+        [data-reveal="fade-right"] { transform: translateX(48px); }
+        [data-reveal="fade-in"]    { transform: scale(0.97); }
+        [data-reveal="zoom-in"]    { transform: scale(0.92); }
+
+        /* Stagger children inside a [data-stagger] parent */
+        [data-stagger] > * {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.65s cubic-bezier(0.22,1,0.36,1),
+                        transform 0.65s cubic-bezier(0.22,1,0.36,1);
+        }
+
+        /* Revealed state */
+        [data-reveal].revealed {
+            opacity: 1;
+            transform: none;
+        }
+        [data-stagger].revealed > *:nth-child(1) { opacity:1; transform:none; transition-delay:0.05s; }
+        [data-stagger].revealed > *:nth-child(2) { opacity:1; transform:none; transition-delay:0.15s; }
+        [data-stagger].revealed > *:nth-child(3) { opacity:1; transform:none; transition-delay:0.25s; }
+        [data-stagger].revealed > *:nth-child(4) { opacity:1; transform:none; transition-delay:0.35s; }
+        [data-stagger].revealed > *:nth-child(5) { opacity:1; transform:none; transition-delay:0.45s; }
+        [data-stagger].revealed > *:nth-child(6) { opacity:1; transform:none; transition-delay:0.55s; }
+
+        /* Delay helpers */
+        [data-delay="1"] { transition-delay: 0.1s; }
+        [data-delay="2"] { transition-delay: 0.2s; }
+        [data-delay="3"] { transition-delay: 0.3s; }
+        [data-delay="4"] { transition-delay: 0.4s; }
+        [data-delay="5"] { transition-delay: 0.5s; }
+
+        /* Hero content entrance */
+        @keyframes heroFadeUp {
+            from { opacity:0; transform: translateY(32px); }
+            to   { opacity:1; transform: none; }
+        }
+        .hero-content > * {
+            animation: heroFadeUp 1s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        .hero-content > *:nth-child(1) { animation-delay: 0.3s; }
+        .hero-content > *:nth-child(2) { animation-delay: 0.55s; }
+        .hero-content > *:nth-child(3) { animation-delay: 0.8s; }
+
+        /* Scroll progress bar */
+        #scroll-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            width: 0%;
+            background: linear-gradient(90deg, #9b4500, #fd8a42);
+            z-index: 9999;
+            transition: width 0.1s linear;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased selection:bg-secondary selection:text-on-secondary">
+<!-- Scroll progress bar -->
+<div id="scroll-bar"></div>
+<!-- TopNavBar -->
+<nav class="bg-surface/90 backdrop-blur-md w-full top-0 sticky shadow-sm z-50">
+<div class="flex justify-between items-center w-full px-gutter py-4 max-w-container-max mx-auto">
+<div class="font-headline-sm text-headline-sm font-bold text-primary">Heritage &amp; Hearth</div>
+<div class="hidden md:flex gap-gutter items-center">
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#services">Buy</a>
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#services">Rent</a>
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#services">Sell</a>
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-secondary transition-colors duration-300" href="#agents">Agents</a>
+</div>
+<a class="hidden md:inline-flex bg-primary text-on-primary font-label-bold text-label-bold px-6 py-3 rounded-full hover:bg-surface-tint transition-colors duration-200" href="#contact">Contact Us</a>
+<!-- Mobile Menu Button -->
+<button id="menu-btn" aria-expanded="false" aria-label="Open menu" class="md:hidden text-primary p-2" onclick="toggleMenu()">
+<span id="menu-icon" class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<!-- Mobile Drawer -->
+<div id="mobile-menu" class="md:hidden bg-surface/95 backdrop-blur-md border-t border-outline-variant px-gutter py-6 flex flex-col gap-5">
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-secondary transition-colors" href="#services" onclick="closeMenu()">Buy</a>
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-secondary transition-colors" href="#services" onclick="closeMenu()">Rent</a>
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-secondary transition-colors" href="#services" onclick="closeMenu()">Sell</a>
+<a class="font-label-bold text-label-bold text-on-surface-variant hover:text-secondary transition-colors" href="#agents" onclick="closeMenu()">Agents</a>
+<a class="inline-flex bg-primary text-on-primary font-label-bold text-label-bold px-6 py-3 rounded-full hover:bg-surface-tint transition-colors w-fit" href="#contact" onclick="closeMenu()">Contact Us</a>
+</div>
+</nav>
+<!-- ═══════════════════════════════════════════════════════
+     SCROLL-SCRUBBED FRAME SEQUENCE  (Lenis + Canvas)
+     400vh tall sticky section — scroll drives frame index
+     The 73 villa frames advance as you scroll down
+═══════════════════════════════════════════════════════ -->
+<div id="scroll-film" style="height:400vh;position:relative;">
+
+  <!-- Sticky canvas: stays pinned while scroll-film is in viewport -->
+  <div id="film-sticky" style="position:sticky;top:0;width:100vw;height:100vh;overflow:hidden;background:#0d1c2e;">
+
+    <!-- Canvas: frames drawn here -->
+    <canvas id="film-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+
+    <!-- Gradient overlay for text legibility -->
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.08) 0%,rgba(13,28,46,0.55) 60%,rgba(13,28,46,0.88) 100%);pointer-events:none;z-index:2;"></div>
+
+    <!-- Vignette edges -->
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.45) 100%);pointer-events:none;z-index:2;"></div>
+
+    <!-- Cinematic letterbox bars -->
+    <div style="position:absolute;top:0;left:0;right:0;height:9vh;background:#000;z-index:3;"></div>
+    <div style="position:absolute;bottom:0;left:0;right:0;height:9vh;background:#000;z-index:3;"></div>
+
+    <!-- Hero text overlay — fades in at 40% scroll, fades out at 80% -->
+    <div id="film-text" style="position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;opacity:0;transition:opacity 0.6s ease;pointer-events:none;">
+      <span style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:#fd8a42;">Heritage &amp; Hearth &nbsp;·&nbsp; Est. 1982</span>
+      <div style="width:80px;height:1px;background:rgba(253,138,66,0.5);"></div>
+      <h1 style="font-family:'Playfair Display',serif;font-size:clamp(36px,5.5vw,72px);font-weight:700;color:#fff;line-height:1.1;letter-spacing:-0.02em;text-shadow:0 8px 40px rgba(0,0,0,0.5);">Curating Exceptional<br>Living Spaces</h1>
+      <p style="font-family:'Inter',sans-serif;font-size:clamp(14px,1.4vw,18px);color:rgba(255,255,255,0.78);max-width:480px;line-height:1.6;margin-top:4px;">Where heritage meets modern luxury. Discover properties that define sophisticated living.</p>
+      <a href="#about" style="margin-top:12px;display:inline-flex;align-items:center;gap:8px;background:#fff;color:#000;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.06em;padding:14px 32px;border-radius:9999px;text-decoration:none;pointer-events:auto;transition:background 0.2s;" onmouseover="this.style.background='#f2f4f6'" onmouseout="this.style.background='#fff'">Explore Portfolio <span style="font-size:16px;">→</span></a>
+    </div>
+
+    <!-- Scroll progress indicator -->
+    <div id="film-progress-wrap" style="position:absolute;bottom:11vh;left:50%;transform:translateX(-50%);z-index:10;display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <span style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.45);">Scroll</span>
+      <div style="width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,0.6),transparent);animation:scrollPulse 2s ease-in-out infinite;"></div>
+    </div>
+
+    <!-- Frame preload status (hides once ready) -->
+    <div id="film-loading" style="position:absolute;bottom:11vh;left:50%;transform:translateX(-50%);z-index:20;text-align:center;">
+      <span style="font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.4);" id="film-load-label">Loading frames…</span>
+      <div style="width:160px;height:1px;background:rgba(255,255,255,0.12);margin:8px auto 0;overflow:hidden;">
+        <div id="film-load-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#9b4500,#fd8a42);transition:width 0.15s linear;"></div>
+      </div>
+    </div>
+
+  </div><!-- /film-sticky -->
+</div><!-- /scroll-film -->
+<!-- 2. About Us -->
+<section class="py-section-gap px-gutter max-w-container-max mx-auto" id="about">
+<div class="grid md:grid-cols-2 gap-margin-desktop items-center">
+<div data-reveal="fade-left">
+<h2 class="font-headline-md text-headline-md text-primary mb-6">A Legacy of Excellence</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6">At Heritage &amp; Hearth, we believe a home is more than a physical space—it is the foundation of a legacy. With over four decades of expertise in the luxury real estate market, we have cultivated a reputation for discretion, unparalleled service, and an uncompromising eye for quality.</p>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">Our dedicated team of advisors provides a deeply personalized approach, ensuring that every transaction, whether buying or selling, is executed with precision and elegance. We do not just navigate the market; we define it.</p>
+<a class="inline-block border border-outline text-primary font-label-bold text-label-bold px-6 py-3 rounded-full hover:bg-surface-container transition-colors duration-200" href="#contact">Speak with an Advisor</a>
+</div>
+<div class="relative rounded-xl overflow-hidden shadow-sm h-[500px]" data-reveal="fade-right" data-delay="2">
+<img class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80'" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDej8o17Kv-vfxj6HMi36bElOTQ4zqLNgadPI1WcuRsScGBxYgAcm8OgJGjD5azphmkRtpTFHzMI9enTRLjHsVS4L905PPxLROhJoxVVp8naiVublGRED0dRbA9DWN9NXXb8cVp6jn4p24rUbULqE1daJ9TvOqE2Rg3g1XTNx70rB-pk9SoXdh2BY_IeBvdTdxWuw3pjT12tl8xn01Pzrz_badOkX-GuZEStOSMvUqjyfU5UphvOlwhfQ" alt="Grand luxury interior living room"/>
+</div>
+</div>
+</section>
+<!-- 3. Services -->
+<section class="bg-surface-container-low py-section-gap px-gutter" id="services">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-margin-desktop max-w-2xl mx-auto" data-reveal="fade-up">
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Our Expertise</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Comprehensive advisory services tailored for the discerning client.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-gutter" data-stagger>
+<!-- Service Card 1 -->
+<div class="bg-surface rounded-xl p-8 shadow-sm border border-outline-variant hover:border-primary transition-colors duration-300">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">key</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-4">Acquisitions</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Strategic guidance for acquiring premium residential and investment properties in highly sought-after locations.</p>
+</div>
+<!-- Service Card 2 -->
+<div class="bg-surface rounded-xl p-8 shadow-sm border border-outline-variant hover:border-primary transition-colors duration-300">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-4">Sales &amp; Marketing</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Bespoke marketing campaigns that position your property to attract the right global audience.</p>
+</div>
+<!-- Service Card 3 -->
+<div class="bg-surface rounded-xl p-8 shadow-sm border border-outline-variant hover:border-primary transition-colors duration-300">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">apartment</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-4">Portfolio Management</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Comprehensive oversight of luxury rental portfolios, ensuring optimal yield and meticulous maintenance.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Featured Listings -->
+<section class="py-section-gap px-gutter max-w-container-max mx-auto" id="featured">
+<div class="flex justify-between items-end mb-margin-desktop" data-reveal="fade-up">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Featured Listings</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">Explore our curated selection of extraordinary properties, representing the pinnacle of architectural design and location.</p>
+</div>
+<a class="hidden md:inline-flex items-center gap-2 font-label-bold text-label-bold text-primary hover:text-secondary transition-colors duration-200" href="#">
+            View All Properties <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid md:grid-cols-3 gap-gutter" data-stagger>
+<!-- Listing 1 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-xl h-80 mb-4">
+<img alt="Luxury Villa" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJaJCKHjD-9BqZ4VR17ZIpzLhQ9TBd2pOStNBLYuq4l6zEuVDzH-as5Qkk0EIcaEhsHP-EvsVZTJOR8ZoHURph14g7CfTLS44kW0hIOgP7gL_Cimpvh1eqrFCH3lkU7tIdKeK262OnWPdR1XLLRIjNFIlSfkS_GhQzqdhl6gW1lxz6EY7jDuKdgtWyD-Q9EKBfJqOaoZSwURFQnHYmbFoJq8AonV6ozy-edutK10Ug_7io5ocFyLZQ1A"/>
+<div class="absolute top-4 right-4 bg-surface text-primary font-label-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider">New Listing</div>
+</div>
+<h3 class="font-headline-sm text-xl text-primary mb-2">The Belvedere Estate</h3>
+<p class="font-body-sm text-on-surface-variant mb-2">Belgravia, London</p>
+<p class="font-body-md font-bold text-primary">£12,500,000</p>
+<div class="flex gap-4 mt-3 text-on-surface-variant text-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">bed</span> 6</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">shower</span> 7</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">straighten</span> 8,500 sqft</span>
+</div>
+</div>
+<!-- Listing 2 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-xl h-80 mb-4">
+<img alt="Modern Penthouse" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=800&q=80'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLt_djHnHp4e4SU4GCXRSk82YktvrDs-YAaWVdniq4UiEROi8VsMeSIj6FHKEXmqzhRkszNXX_zvvCMzIP0nX-4ZuJb8lMB2-_rDgJ53lJk6hv0bOSf5cOAOPx6AFXNNm-SrXnEpFMGRYoC1blKdXvDNb_qgFiYaRpKMxYls5trY-7Vj8t-XWOGETvrbgHPaY4ez2MeW5ws8L97Asyhoh25IOAUFuC3L8b69UZMHw8Rxvf0Czu3xamVQ"/>
+</div>
+<h3 class="font-headline-sm text-xl text-primary mb-2">Park Lane Penthouse</h3>
+<p class="font-body-sm text-on-surface-variant mb-2">Mayfair, London</p>
+<p class="font-body-md font-bold text-primary">£18,000,000</p>
+<div class="flex gap-4 mt-3 text-on-surface-variant text-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">bed</span> 4</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">shower</span> 4.5</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">straighten</span> 4,200 sqft</span>
+</div>
+</div>
+<!-- Listing 3 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden rounded-xl h-80 mb-4">
+<img alt="Country Manor" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOF5siJQLzkN6n2QAGCUvRdXNyVcpXH79ZS315p0FbzMF6rfj1y16ZDbK0MQIBFOD3cKYV55zDy_GnR2WGPKj_m-KubB0lD_GzOA4rM7RjD91LXfq3m2JTBa6ka9C_VE1Fk_SYEgrc0gwZY8ulBHxcX3WcaW71BhbGq7OJvx7ziVkfd6p96iLwAjLJnHZyUOtfalF5YLzYJD44NkWABlWMyFgX09pSnW2eAcr5u3Jm_1-OILvk7EXTNg"/>
+</div>
+<h3 class="font-headline-sm text-xl text-primary mb-2">Wellington Manor</h3>
+<p class="font-body-sm text-on-surface-variant mb-2">Surrey</p>
+<p class="font-body-md font-bold text-primary">£8,950,000</p>
+<div class="flex gap-4 mt-3 text-on-surface-variant text-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">bed</span> 8</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">shower</span> 6</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">straighten</span> 12,000 sqft</span>
+</div>
+</div>
+</div>
+<div class="mt-8 text-center md:hidden">
+<a class="inline-flex items-center gap-2 font-label-bold text-label-bold text-primary hover:text-secondary transition-colors duration-200" href="#">
+            View All Properties <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</section>
+<!-- 5. Exclusive Neighborhoods -->
+<section class="bg-surface-container-low py-section-gap px-gutter" id="neighborhoods">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-margin-desktop max-w-2xl mx-auto" data-reveal="fade-up">
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Exclusive Neighborhoods</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Discover the distinct character and unparalleled prestige of London's finest addresses.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-gutter" data-stagger>
+<!-- Neighborhood 1 -->
+<div class="relative h-96 rounded-xl overflow-hidden group cursor-pointer">
+<img alt="Mayfair" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8taJCxZ9Dcvgl-UKgnxLmC2r6r-VdgF-Aah2DwGLNY8dKrvC6Uqok-9im4GavvNWWPPjmjN1tEsbXvxNjhcaJCr1K8G-z6BWnk0L-xwK27dePQL9h1r882-GuAAmdYovfGXZ-FUAtX9HWoRGG5S0ATv4gIsRzqQVO3LsjbrPMJYvsl_KRg3B-9gubfVHPrR5QZumupyWZnHxf3O7AWEIcawWnPju6FEwVBTvLkajN0x9QlRVkHkhr9g"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/30 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full">
+<h3 class="font-headline-sm text-2xl text-on-primary mb-2">Mayfair</h3>
+<p class="font-body-sm text-on-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">Timeless elegance, luxury boutiques, and world-class dining in the heart of London.</p>
+</div>
+</div>
+<!-- Neighborhood 2 -->
+<div class="relative h-96 rounded-xl overflow-hidden group cursor-pointer">
+<img alt="Kensington" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgqbtErGAAQK9eMUydJJ-dYzF61Y-5dFpfGKRkkV56daxd15AYouKMA3TnMOiZWpBdNQ5Gjpvw3RmFLqV4285d1SMEvGJMZprCxsQlx5nKAqvXRniSAAFjrpK-SUT683eUNLwqT4YDWK6AvwsC811iq_GYgk0G-U_3MXLzIwhiV86auZieiFZ_IgBbTWGRX6Lg4Itaa-WdZFw1lMRUBT51kW4JDssDARa9-8GslpSec9ENaCCpKCKXPw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/30 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full">
+<h3 class="font-headline-sm text-2xl text-on-primary mb-2">Kensington</h3>
+<p class="font-body-sm text-on-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">Stately architecture, leafy squares, and renowned cultural institutions.</p>
+</div>
+</div>
+<!-- Neighborhood 3 -->
+<div class="relative h-96 rounded-xl overflow-hidden group cursor-pointer">
+<img alt="Knightsbridge" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYylWT10VAp398tYPKVy3VwppELWXtwJ-aQuI9dr20MOclKFyTq6eJBgfRYcNxbmligTYIFMQ3cCwO6h3t8xD_9efH3THGNzK1mDVHhp_mTsfsaROpxOjvL8cwir83WvQgYi3VlakxSkS7E9NOHSLvQ4PkAN7ZVQC4UpugVh_Xo5SFLErRyC1mBVNpfIzju2v-1bnvvdHJI78LCeisxZCpL99Fioup3CNgNM5aRNLiTv7X7KyxW7sVpg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/30 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full">
+<h3 class="font-headline-sm text-2xl text-on-primary mb-2">Knightsbridge</h3>
+<p class="font-body-sm text-on-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0">High-end shopping, exclusive garden squares, and cosmopolitan glamour.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. Our Process -->
+<section class="py-section-gap px-gutter max-w-container-max mx-auto" id="process">
+<div class="text-center mb-margin-desktop max-w-2xl mx-auto" data-reveal="fade-up">
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Our Process</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">A refined, discreet approach to securing your ideal property.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8 relative" data-stagger>
+<!-- Connecting Line (Desktop) -->
+<div class="hidden md:block absolute top-1/2 left-[16%] right-[16%] h-px bg-outline-variant -z-10"></div>
+<!-- Step 1 -->
+<div class="text-center bg-surface p-6 z-10">
+<div class="w-16 h-16 rounded-full bg-primary text-on-primary flex items-center justify-center text-2xl font-headline-sm mx-auto mb-6">1</div>
+<h3 class="font-headline-sm text-xl text-primary mb-4">Consultation</h3>
+<p class="font-body-sm text-on-surface-variant">We begin with an in-depth, confidential discussion to understand your unique lifestyle requirements, investment goals, and aesthetic preferences.</p>
+</div>
+<!-- Step 2 -->
+<div class="text-center bg-surface p-6 z-10">
+<div class="w-16 h-16 rounded-full bg-primary text-on-primary flex items-center justify-center text-2xl font-headline-sm mx-auto mb-6">2</div>
+<h3 class="font-headline-sm text-xl text-primary mb-4">Curation</h3>
+<p class="font-body-sm text-on-surface-variant">Leveraging our extensive network, we handpick a curated selection of off-market and premium listings that align perfectly with your brief.</p>
+</div>
+<!-- Step 3 -->
+<div class="text-center bg-surface p-6 z-10">
+<div class="w-16 h-16 rounded-full bg-primary text-on-primary flex items-center justify-center text-2xl font-headline-sm mx-auto mb-6">3</div>
+<h3 class="font-headline-sm text-xl text-primary mb-4">Closing</h3>
+<p class="font-body-sm text-on-surface-variant">Our expert negotiators handle every detail of the transaction with discretion and tenacity, ensuring a seamless and favorable acquisition.</p>
+</div>
+</div>
+</section>
+<!-- 7. Testimonials -->
+<section class="bg-primary-container text-on-primary-container py-section-gap px-gutter" id="testimonials">
+<div class="max-w-container-max mx-auto">
+<h2 class="font-headline-md text-headline-md text-center mb-margin-desktop text-on-primary">Client Experiences</h2>
+<div class="grid md:grid-cols-2 gap-gutter max-w-4xl mx-auto">
+<!-- Quote 1 -->
+<div class="bg-surface/10 backdrop-blur-sm p-8 rounded-xl border border-on-primary/10">
+<span class="material-symbols-outlined text-4xl text-on-primary/30 mb-4">format_quote</span>
+<p class="font-body-lg italic text-on-primary/90 mb-6">"The level of service and discretion provided by Heritage &amp; Hearth is unparalleled. They understood exactly what we were looking for in a Mayfair residence before we even articulated it ourselves. True professionals."</p>
+<div class="font-label-bold text-on-primary tracking-wider uppercase">— Lord &amp; Lady C., Mayfair</div>
+</div>
+<!-- Quote 2 -->
+<div class="bg-surface/10 backdrop-blur-sm p-8 rounded-xl border border-on-primary/10">
+<span class="material-symbols-outlined text-4xl text-on-primary/30 mb-4">format_quote</span>
+<p class="font-body-lg italic text-on-primary/90 mb-6">"Selling a legacy property requires a delicate touch and a global reach. The team executed a flawless, off-market campaign that resulted in a seamless transaction with the perfect buyer."</p>
+<div class="font-label-bold text-on-primary tracking-wider uppercase">— J. Sterling, Kensington</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 8. Our Agents -->
+<section class="py-section-gap px-gutter max-w-container-max mx-auto" id="agents">
+<div class="text-center mb-margin-desktop max-w-2xl mx-auto">
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Meet Our Advisors</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">A team of dedicated experts with unparalleled knowledge of the prime luxury market.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-gutter" data-stagger>
+<!-- Agent 1 -->
+<div class="group text-center">
+<div class="relative w-64 h-64 mx-auto rounded-full overflow-hidden mb-6">
+<img alt="Alistair Montgomery" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSNg97VseweJf1QJpPS6xUA6HMDfa2suBD4VshVFXTJ6bQDgsIB3OMhTHIihUmFBCOS3WbW0sv4Nl7fZAgEMnZvRTEchG0AB4SqpZta4IFC86mngNHskuS_dJw0mGF9-mvXIVwQGF_O7MWBy9svPxp2vkEiyc-3CPLXGz1rhpyZjJXlUu-X_JEGQU4UbLOFEVZLOa1nk-_J_qgl35Vm49H4cYjJlS43R-VJkBmlPbF4ROsGH9EsHCLCw"/>
+</div>
+<h3 class="font-headline-sm text-xl text-primary mb-1">Alistair Montgomery</h3>
+<p class="font-body-sm text-on-surface-variant mb-4 uppercase tracking-wider text-xs">Director, Prime Central London</p>
+<div class="flex justify-center gap-3 text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">mail</span></a>
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">phone</span></a>
+</div>
+</div>
+<!-- Agent 2 -->
+<div class="group text-center">
+<div class="relative w-64 h-64 mx-auto rounded-full overflow-hidden mb-6">
+<img alt="Eleanor Vance" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC16C7QP9zKHMagLQm7eDH9Fjov6zovIAN8DU4Tupck5VylPe0MR0GfZY0DVTG8qsJuZPOcVeq8Tb_TOsTwO8n0Gwg-Z3LcFEiVvBjT5KRTrIxhYhq8ZpaHDsV6shvj4cyrRUWNja_9CL8wF3HZpphRXDRFOliKi0v_UxNLeGG0VyHY1agIKvVyqrDjWMrkpRxDhsgstumxwX8cXZFU4uRCaZFt3qzrz5eBSTMiLRWQchfeZnyNFkR9IA"/>
+</div>
+<h3 class="font-headline-sm text-xl text-primary mb-1">Eleanor Vance</h3>
+<p class="font-body-sm text-on-surface-variant mb-4 uppercase tracking-wider text-xs">Head of International Acquisitions</p>
+<div class="flex justify-center gap-3 text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">mail</span></a>
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">phone</span></a>
+</div>
+</div>
+<!-- Agent 3 -->
+<div class="group text-center">
+<div class="relative w-64 h-64 mx-auto rounded-full overflow-hidden mb-6">
+<img alt="Julian Sterling" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHs2ehTXbBeati99sFAtUiAzFCVhuNkgVkkEaGRXj_pZG3efheMRtRUylTvpeoysMxqR84gQCTR4tRi9gmaL4bQ8bLLdG_pdSr7l-4t8EXidskH-3PJuOoluz2gBnp8t1098IDAZBgXIFvhsivlEE3jeyaNnWOR3CvRoE10MEXo1yyzdeGXVCGAZLdvqNvHMcQ11bCwcjTSG1-6IAz5RdLI3hiurCFqZFq7zn25019CsNHfyByPTiwpw"/>
+</div>
+<h3 class="font-headline-sm text-xl text-primary mb-1">Julian Sterling</h3>
+<p class="font-body-sm text-on-surface-variant mb-4 uppercase tracking-wider text-xs">Senior Advisor, Country Estates</p>
+<div class="flex justify-center gap-3 text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">mail</span></a>
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined text-[20px]">phone</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- 9. Latest News -->
+<section class="bg-surface-container-low py-section-gap px-gutter" id="news">
+<div class="max-w-container-max mx-auto">
+<div class="flex justify-between items-end mb-margin-desktop">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Insights &amp; News</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Market analysis, lifestyle trends, and firm announcements.</p>
+</div>
+<a class="hidden md:inline-flex items-center gap-2 font-label-bold text-label-bold text-primary hover:text-secondary transition-colors duration-200" href="#">
+                Read the Journal <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid md:grid-cols-2 gap-gutter">
+<!-- Article 1 -->
+<a class="group block border-b border-outline-variant pb-8 mb-8 md:mb-0 md:border-b-0 md:pb-0" href="#">
+<p class="font-label-bold text-secondary mb-3 uppercase tracking-wider">Market Report</p>
+<h3 class="font-headline-sm text-2xl text-primary mb-3 group-hover:text-secondary transition-colors">The Resurgence of Prime Central London: A Q3 Analysis</h3>
+<p class="font-body-sm text-on-surface-variant mb-4">An in-depth look at the factors driving renewed interest in London's most historic postcodes.</p>
+<span class="font-label-bold text-xs text-on-surface-variant uppercase tracking-wider">Read Article</span>
+</a>
+<!-- Article 2 -->
+<a class="group block" href="#">
+<p class="font-label-bold text-secondary mb-3 uppercase tracking-wider">Lifestyle</p>
+<h3 class="font-headline-sm text-2xl text-primary mb-3 group-hover:text-secondary transition-colors">Designing for Legacy: Incorporating Heritage Elements in Modern Builds</h3>
+<p class="font-body-sm text-on-surface-variant mb-4">How leading architects are blending classical proportions with contemporary luxury.</p>
+<span class="font-label-bold text-xs text-on-surface-variant uppercase tracking-wider">Read Article</span>
+</a>
+</div>
+</div>
+</section>
+<!-- 10. Contact & Inquiry (Footer Refined) -->
+<footer class="bg-surface border-t border-outline-variant w-full relative" id="contact">
+<!-- Contact Section Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-0 max-w-[1920px] mx-auto border-b border-outline-variant">
+<!-- Inquiry Form -->
+<div class="p-gutter md:p-margin-desktop py-section-gap flex flex-col justify-center max-w-2xl mx-auto w-full">
+<h2 class="font-headline-md text-headline-md text-primary mb-6">Private Inquiry</h2>
+<p class="font-body-md text-on-surface-variant mb-8">Connect with a Heritage &amp; Hearth advisor to discuss your real estate aspirations with the utmost discretion.</p>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-label-bold text-xs text-on-surface-variant uppercase tracking-wider mb-2" for="firstName">First Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-none border-b border-outline focus:border-primary focus:ring-0 px-0 py-3 font-body-md text-primary placeholder-on-surface-variant/50" id="firstName" placeholder="John" type="text"/>
+</div>
+<div>
+<label class="block font-label-bold text-xs text-on-surface-variant uppercase tracking-wider mb-2" for="lastName">Last Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-none border-b border-outline focus:border-primary focus:ring-0 px-0 py-3 font-body-md text-primary placeholder-on-surface-variant/50" id="lastName" placeholder="Doe" type="text"/>
+</div>
+</div>
+<div>
+<label class="block font-label-bold text-xs text-on-surface-variant uppercase tracking-wider mb-2" for="email">Email Address</label>
+<input class="w-full bg-surface-container-low border-none rounded-none border-b border-outline focus:border-primary focus:ring-0 px-0 py-3 font-body-md text-primary placeholder-on-surface-variant/50" id="email" placeholder="john.doe@example.com" type="email"/>
+</div>
+<div>
+<label class="block font-label-bold text-xs text-on-surface-variant uppercase tracking-wider mb-2" for="interest">Area of Interest</label>
+<select class="w-full bg-surface-container-low border-none rounded-none border-b border-outline focus:border-primary focus:ring-0 px-0 py-3 font-body-md text-primary" id="interest">
+<option>Acquiring a Property</option>
+<option>Selling a Property</option>
+<option>Portfolio Management</option>
+<option>General Inquiry</option>
+</select>
+</div>
+<div>
+<label class="block font-label-bold text-xs text-on-surface-variant uppercase tracking-wider mb-2" for="message">Message</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-none border-b border-outline focus:border-primary focus:ring-0 px-0 py-3 font-body-md text-primary placeholder-on-surface-variant/50" id="message" placeholder="How may we assist you?" rows="3"></textarea>
+</div>
+<button class="bg-primary text-on-primary font-label-bold text-label-bold px-8 py-4 rounded-full hover:bg-surface-tint transition-colors duration-200 mt-4" type="submit">Submit Inquiry</button>
+</form>
+</div>
+<!-- Map / Office Info -->
+<div class="relative h-[400px] md:h-auto bg-surface-container-low">
+<img alt="London Map Area" class="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC16jaGmHi5VgaNAsTUcRfqJ47UDTNtCiIqoLYkXFdh_1W8fiUoxRDSRCKl8wW82gcqdAXJKqsjv9cMGu0uN5-cfNR99uBR79Toz2-WBX-jJj1OO6SzcpXZ0jo0QQ2kCqQMbTT5b2T4Ke11tuyZwm1wzvMGnu9NMfbI9i0BOHeaoXSkSbA5_G_BEQaQ5AxvIL5NQnvIqUtsUNmBid7DHcqPotibn_1giQWvP3UnPpqV6VhhXn9niaVhcw"/>
+<div class="absolute inset-0 bg-primary/20"></div>
+<div class="absolute bottom-8 left-8 right-8 md:bottom-16 md:left-16 md:right-auto bg-surface p-8 shadow-lg max-w-sm">
+<h3 class="font-headline-sm text-xl text-primary mb-4">London Headquarters</h3>
+<p class="font-body-sm text-on-surface-variant mb-2">45 Berkeley Square<br/>Mayfair, London<br/>W1J 5AS, United Kingdom</p>
+<div class="mt-6 space-y-2">
+<p class="font-body-sm text-primary flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">phone</span> +44 (0) 20 7499 9000</p>
+<p class="font-body-sm text-primary flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">mail</span> inquiries@heritagehearth.com</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Standard Footer Links -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-gutter py-12 max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="text-headline-sm font-headline-sm font-bold text-primary mb-4">Heritage &amp; Hearth</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">Defining luxury real estate through heritage, precision, and unparalleled service.</p>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-bold text-label-bold text-primary mb-4 uppercase tracking-wider">Company</h4>
+<ul class="space-y-3">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">About Us</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Terms of Service</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-bold text-label-bold text-primary mb-4 uppercase tracking-wider">Legal</h4>
+<ul class="space-y-3">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Modern Slavery Act</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Cookies</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-label-bold text-label-bold text-primary mb-4 uppercase tracking-wider">Follow Us</h4>
+<div class="flex gap-4">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Instagram</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">LinkedIn</a>
+</div>
+</div>
+<div class="col-span-1 md:col-span-4 mt-8 pt-8 border-t border-outline-variant text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 Heritage &amp; Hearth. All rights reserved.</p>
+</div>
+</div>
+</footer>
+
+<!-- Toast Notification -->
+<div id="toast" class="fixed bottom-8 right-8 z-[100] bg-primary text-on-primary font-label-bold text-label-bold px-6 py-4 rounded-full shadow-xl flex items-center gap-3">
+  <span class="material-symbols-outlined text-[18px] filled">check_circle</span>
+  <span id="toast-msg">Inquiry sent successfully!</span>
+</div>
+
+<script>
+  /* LENIS SMOOTH SCROLL */
+  const lenis = new Lenis({
+    duration: 1.4,
+    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    wheelMultiplier: 0.9,
+    touchMultiplier: 1.5,
+  });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  /* SCROLL-SCRUBBED FRAME ANIMATION */
+  const TOTAL_FRAMES = 73, FRAME_DIR = 'frames/';
+  const filmCanvas  = document.getElementById('film-canvas');
+  const filmCtx     = filmCanvas.getContext('2d');
+  const filmSection = document.getElementById('scroll-film');
+  const filmText    = document.getElementById('film-text');
+  const filmLoading = document.getElementById('film-loading');
+  const filmLoadBar = document.getElementById('film-load-bar');
+  const filmProgWrap= document.getElementById('film-progress-wrap');
+  let frames = [], framesLoaded = 0, currentFrame = 0;
+
+  function resizeCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    filmCanvas.width  = window.innerWidth  * dpr;
+    filmCanvas.height = window.innerHeight * dpr;
+    filmCanvas.style.width  = window.innerWidth  + 'px';
+    filmCanvas.style.height = window.innerHeight + 'px';
+    filmCtx.scale(dpr, dpr);
+    if (frames[currentFrame] && frames[currentFrame].complete) drawFilmFrame(frames[currentFrame]);
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  function drawFilmFrame(img) {
+    if (!img || !img.complete || !img.naturalWidth) return;
+    const cw = window.innerWidth, ch = window.innerHeight;
+    const iw = img.naturalWidth, ih = img.naturalHeight;
+    const scale = Math.max(cw / iw, ch / ih);
+    const dw = iw * scale, dh = ih * scale;
+    filmCtx.clearRect(0, 0, cw, ch);
+    filmCtx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+  }
+
+  function preloadFrames() {
+    filmLoading.style.opacity = '1';
+    filmProgWrap.style.opacity = '0';
+    for (let i = 0; i < TOTAL_FRAMES; i++) {
+      const img = new Image();
+      img.src = FRAME_DIR + 'f' + String(i).padStart(3,'0') + '.jpg';
+      const done = () => {
+        framesLoaded++;
+        filmLoadBar.style.width = (framesLoaded / TOTAL_FRAMES * 100) + '%';
+        if (framesLoaded === 1) drawFilmFrame(frames[0]);
+        if (framesLoaded === TOTAL_FRAMES) {
+          filmLoading.style.transition = 'opacity 0.5s';
+          filmLoading.style.opacity = '0';
+          filmProgWrap.style.transition = 'opacity 0.5s 0.3s';
+          filmProgWrap.style.opacity = '1';
+          drawFilmFrame(frames[0]);
+        }
+      };
+      img.onload = done; img.onerror = done;
+      frames[i] = img;
+    }
+  }
+  preloadFrames();
+
+  lenis.on('scroll', ({ scroll }) => {
+    const sectionTop    = filmSection.offsetTop;
+    const sectionHeight = filmSection.offsetHeight;
+    const viewH         = window.innerHeight;
+    const scrollable    = sectionHeight - viewH;
+    const progress = Math.max(0, Math.min(1, (scroll - sectionTop) / scrollable));
+    const idx = Math.min(Math.floor(progress * (TOTAL_FRAMES - 1)), TOTAL_FRAMES - 1);
+    if (idx !== currentFrame && frames[idx] && frames[idx].complete) {
+      currentFrame = idx;
+      drawFilmFrame(frames[idx]);
+    }
+    let textOpacity = 0;
+    if (progress >= 0.4 && progress <= 0.75)      textOpacity = Math.min(1, (progress - 0.4) / 0.2);
+    else if (progress > 0.75 && progress <= 0.9)  textOpacity = 1 - (progress - 0.75) / 0.15;
+    filmText.style.opacity = textOpacity;
+    filmProgWrap.style.opacity = progress > 0.02 ? '0' : (framesLoaded === TOTAL_FRAMES ? '1' : '0');
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const bar = document.getElementById('scroll-bar');
+    if (bar) bar.style.width = (scroll / max * 100) + '%';
+  });
+
+  /* SCROLL REVEAL */
+  const revealEls = document.querySelectorAll('[data-reveal],[data-stagger]');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); revealObs.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => revealObs.observe(el));
+
+  /* MOBILE MENU */
+  function toggleMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const btn  = document.getElementById('menu-btn');
+    const icon = document.getElementById('menu-icon');
+    const isOpen = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', isOpen);
+    icon.textContent = isOpen ? 'close' : 'menu';
+  }
+  function closeMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const btn  = document.getElementById('menu-btn');
+    const icon = document.getElementById('menu-icon');
+    menu.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+    icon.textContent = 'menu';
+  }
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('mobile-menu');
+    const btn  = document.getElementById('menu-btn');
+    if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) closeMenu();
+  });
+
+  /* TOAST */
+  function showToast(msg, isError) {
+    const toast = document.getElementById('toast');
+    const msgEl = document.getElementById('toast-msg');
+    msgEl.textContent = msg;
+    toast.style.background = isError ? '#ba1a1a' : '';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+  }
+
+  /* FORM VALIDATION */
+  document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const fields = [
+      { id:'firstName', label:'First Name' },
+      { id:'lastName',  label:'Last Name'  },
+      { id:'email',     label:'Email'      },
+      { id:'message',   label:'Message'    },
+    ];
+    for (const f of fields) {
+      const el = document.getElementById(f.id);
+      if (!el.value.trim()) { el.focus(); showToast(f.label + ' is required.', true); return; }
+    }
+    const email = document.getElementById('email').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      document.getElementById('email').focus();
+      showToast('Please enter a valid email address.', true);
+      return;
+    }
+    this.reset();
+    showToast('Inquiry sent successfully!', false);
+  });
+
+  /* SCROLL PULSE KEYFRAME */
+  const ss = document.createElement('style');
+  ss.textContent = `@keyframes scrollPulse{0%,100%{opacity:.5;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.2)}}`;
+  document.head.appendChild(ss);
+</script>
+</body></html>

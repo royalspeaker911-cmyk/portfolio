@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Heritage & Hearth</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; background: #000; overflow: hidden; font-family: 'Inter', sans-serif; }
+  #stage { position: fixed; inset: 0; width: 100vw; height: 100vh; }
+  .bar { position: fixed; left: 0; right: 0; height: 0; background: #000; z-index: 10; transition: height 0.8s cubic-bezier(0.22,1,0.36,1); }
+  #bar-top { top: 0; }
+  #bar-bottom { bottom: 0; }
+  body.cinematic #bar-top, body.cinematic #bar-bottom { height: 10vh; }
+  #overlay {
+    position: fixed; inset: 0; z-index: 20;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+    pointer-events: none; opacity: 0; transition: opacity 1.2s ease;
+  }
+  #overlay.show { opacity: 1; }
+  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: #fd8a42; opacity: 0; transform: translateY(12px); transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s; }
+  #overlay.show .eyebrow { opacity: 1; transform: none; }
+  #overlay h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 6vw, 72px); font-weight: 700; color: #fff; text-align: center; line-height: 1.1; letter-spacing: -0.02em; text-shadow: 0 4px 40px rgba(0,0,0,0.6); opacity: 0; transform: translateY(20px); transition: opacity 1s ease 0.6s, transform 1s ease 0.6s; }
+  #overlay.show h1 { opacity: 1; transform: none; }
+  .tagline { font-size: 15px; color: rgba(255,255,255,0.75); letter-spacing: 0.05em; opacity: 0; transform: translateY(12px); transition: opacity 0.9s ease 1s, transform 0.9s ease 1s; }
+  #overlay.show .tagline { opacity: 1; transform: none; }
+  .divline { width: 0; height: 1px; background: rgba(253,138,66,0.6); transition: width 1s ease 0.5s; }
+  #overlay.show .divline { width: 120px; }
+  #progress-wrap { position: fixed; bottom: 48px; left: 50%; transform: translateX(-50%); z-index: 30; display: flex; flex-direction: column; align-items: center; gap: 10px; opacity: 0; transition: opacity 0.5s ease; }
+  #progress-wrap.show { opacity: 1; }
+  #progress-label { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+  #progress-bar-outer { width: 200px; height: 1px; background: rgba(255,255,255,0.15); position: relative; overflow: hidden; }
+  #progress-bar-inner { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: linear-gradient(90deg, #9b4500, #fd8a42); transition: width 0.1s linear; }
+  #vignette { position: fixed; inset: 0; z-index: 5; pointer-events: none; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%); }
+  #fade-out { position: fixed; inset: 0; background: #f7f9fb; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 1s ease; }
+  #fade-out.active { opacity: 1; pointer-events: auto; }
+</style>
+</head>
+<body>
+<div class="bar" id="bar-top"></div>
+<div class="bar" id="bar-bottom"></div>
+<div id="vignette"></div>
+<canvas id="stage"></canvas>
+<div id="overlay">
+  <span class="eyebrow">Est. 1982 · London</span>
+  <div class="divline"></div>
+  <h1>Heritage<br>&amp; Hearth</h1>
+  <p class="tagline">Curating Exceptional Living Spaces</p>
+</div>
+<div id="progress-wrap">
+  <span id="progress-label">Loading</span>
+  <div id="progress-bar-outer"><div id="progress-bar-inner"></div></div>
+</div>
+<div id="fade-out"></div>
+<script>
+  const TOTAL = 73, FPS = 18, DIR = 'frames/', NEXT = 'code.html';
+  const canvas = document.getElementById('stage');
+  const ctx    = canvas.getContext('2d');
+  const overlay  = document.getElementById('overlay');
+  const progWrap = document.getElementById('progress-wrap');
+  const progBar  = document.getElementById('progress-bar-inner');
+  const fadeOut  = document.getElementById('fade-out');
+
+  let images = [], loaded = 0, frameIdx = 0, playing = false, lastTime = 0;
+  const interval = 1000 / FPS;
+
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function drawFrame(img) {
+    const cw = canvas.width, ch = canvas.height;
+    const iw = img.naturalWidth  || cw;
+    const ih = img.naturalHeight || ch;
+    const scale = Math.max(cw / iw, ch / ih);
+    const dw = iw * scale, dh = ih * scale;
+    ctx.clearRect(0, 0, cw, ch);
+    ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+  }
+
+  function animate(ts) {
+    if (!playing) return;
+    if (ts - lastTime >= interval) {
+      lastTime = ts;
+      if (images[frameIdx] && images[frameIdx].complete) drawFrame(images[frameIdx]);
+      frameIdx++;
+      if (frameIdx === Math.floor(TOTAL * 0.35)) overlay.classList.add('show');
+      if (frameIdx >= TOTAL) {
+        playing = false;
+        overlay.classList.remove('show');
+        setTimeout(() => {
+          fadeOut.classList.add('active');
+          setTimeout(() => { window.location.href = NEXT; }, 1050);
+        }, 600);
+        return;
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+
+  function startLoad() {
+    progWrap.classList.add('show');
+    for (let i = 0; i < TOTAL; i++) {
+      const img = new Image();
+      img.src = DIR + 'f' + String(i).padStart(3,'0') + '.jpg';
+      const onDone = () => {
+        loaded++;
+        progBar.style.width = (loaded / TOTAL * 100) + '%';
+        if (loaded === 1) drawFrame(img);
+        if (loaded === TOTAL) {
+          progWrap.classList.remove('show');
+          document.body.classList.add('cinematic');
+          playing = true;
+          requestAnimationFrame(animate);
+        }
+      };
+      img.onload = onDone;
+      img.onerror = onDone;
+      images[i] = img;
+    }
+  }
+  startLoad();
+</script>
+</body>
+</html>
